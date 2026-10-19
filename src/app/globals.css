@@ -649,18 +649,6 @@ html[data-theme='dark'] .theme-btn__moon {
   display: grid;
   gap: clamp(16px, 2.4vw, 32px);
 }
-.pp-row {
-  display: grid;
-  gap: clamp(16px, 2.4vw, 32px);
-}
-.pp-row--pair {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-@media (max-width: 599px) {
-  .pp-row--pair {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
 .pp-shot {
   position: relative;
   border-radius: 20px;
@@ -670,14 +658,6 @@ html[data-theme='dark'] .theme-btn__moon {
 .pp-shot img {
   width: 100%;
   height: auto;
-}
-.pp-shot > img[style],
-.pp-shot img.pp-shot__fill {
-  height: 100%;
-  object-fit: cover;
-}
-.pp-shot img[sizes] {
-  object-fit: cover;
 }
 .pp-more {
   padding: clamp(96px, 12vw, 200px) 12px 0;

@@ -20,33 +20,17 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return { title: p.title, description: `${p.title}, ${metaLine(p)}, by ${site.name}.` };
 }
 
-function Shot({ img, alt, ratio, priority = false }: { img: Img; alt: string; ratio?: string; priority?: boolean }) {
+function Shot({ img, alt, priority = false }: { img: Img; alt: string; priority?: boolean }) {
   return (
-    <div className="pp-shot" style={ratio ? { aspectRatio: ratio } : undefined}>
+    <div className="pp-shot">
       {img.animated ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={img.src} alt={alt} width={img.w} height={img.h} loading="lazy" className={ratio ? 'pp-shot__fill' : undefined} />
-      ) : ratio ? (
-        <Image src={img.src} alt={alt} fill quality={82} sizes="(max-width: 899px) 100vw, 45vw" priority={priority} />
+        <img src={img.src} alt={alt} width={img.w} height={img.h} loading="lazy" />
       ) : (
         <Image src={img.src} alt={alt} width={img.w} height={img.h} quality={82} sizes="(max-width: 699px) 100vw, 70vw" priority={priority} />
       )}
     </div>
   );
-}
-
-/** Gallery rhythm from the reference: a full-width image, then a pair, and so on. */
-function layout<T>(items: T[]): T[][] {
-  const rows: T[][] = [];
-  let i = 0;
-  let full = true;
-  while (i < items.length) {
-    const take = full || items.length - i === 1 ? 1 : 2;
-    rows.push(items.slice(i, i + take));
-    i += take;
-    full = !full;
-  }
-  return rows;
 }
 
 export default async function ProjectPage({ params }: { params: Promise<Params> }) {
@@ -113,14 +97,10 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
       {rest.length > 0 && (
         <section className="pp-gallery" aria-label={`${p.title} screens`}>
-          {layout(rest).map((row, r) => (
-            <div key={r} className={row.length === 2 ? 'pp-row pp-row--pair' : 'pp-row'}>
-              {row.map((img, k) => (
-                <Reveal key={img.src} delay={k * 0.08}>
-                  <Shot img={img} alt={`${p.title} screen`} ratio={row.length === 2 ? '4 / 3' : undefined} priority={r === 0} />
-                </Reveal>
-              ))}
-            </div>
+          {rest.map((img, i) => (
+            <Reveal key={img.src}>
+              <Shot img={img} alt={`${p.title} screen`} priority={i === 0} />
+            </Reveal>
           ))}
         </section>
       )}
