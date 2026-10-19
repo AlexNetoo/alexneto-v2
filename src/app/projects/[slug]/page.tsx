@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { FloatingCta } from '@/components/FloatingCta';
 import { Footer } from '@/components/Footer';
 import { Reveal } from '@/components/Reveal';
 import { categoryOf, linkHost, metaLine, moreProjects, projects, type Img } from '@/data/projects';
@@ -145,7 +144,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       </section>
 
       <Footer />
-      <FloatingCta />
     </>
   );
 }

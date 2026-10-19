@@ -721,30 +721,6 @@ html[data-theme='dark'] .theme-btn__moon {
   font-weight: 500;
 }
 
-/* pill pinned bottom-left on project pages */
-.floating-cta {
-  position: fixed;
-  left: 12px;
-  bottom: 12px;
-  z-index: 70;
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 24px 14px 18px;
-  border-radius: 9999px;
-  background: var(--inverted);
-  color: var(--on-inverted);
-  font-size: 14px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
-  transition:
-    opacity 0.4s var(--ease),
-    transform 0.6s var(--ease);
-}
-.floating-cta[data-hidden='true'] {
-  opacity: 0;
-  transform: translateY(24px);
-  pointer-events: none;
-}
 
 /* ---------- footer ---------- */
 .site-footer {
