@@ -697,6 +697,22 @@ html[data-theme='dark'] .theme-btn__moon {
 }
 
 
+/* ---------- useLayouts Get in touch ---------- */
+.gt-btn {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+.gt-btn--dark {
+  background: var(--inverted);
+  color: var(--on-inverted);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.gt-you {
+  background: var(--on-inverted);
+  color: var(--inverted);
+}
+
 /* ---------- footer ---------- */
 .site-footer {
   padding-top: clamp(120px, 14vw, 240px);

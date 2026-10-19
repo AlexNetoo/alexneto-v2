@@ -4,13 +4,8 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { useEffect, useRef, useState } from 'react';
 import { GLOW_COLORS, trackGlow } from '@/lib/glow';
 import { site, whatsappUrl } from '@/data/site';
+import { BookACallLink } from './get-in-touch';
 import { LiquidGradientCanvas } from './liquid-index-canvas';
-
-const Arrow = () => (
-  <svg className="btn__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M5 12h14M13 6l6 6-6 6" />
-  </svg>
-);
 
 /** "Get in touch" (WhatsApp, like the live site) and a one-click "Copy email". */
 export function FooterActions() {
@@ -26,10 +21,7 @@ export function FooterActions() {
   };
   return (
     <div className="cta-actions">
-      <a className="btn btn--lg" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-        Get in touch
-        <Arrow />
-      </a>
+      <BookACallLink href={whatsappUrl} className="w-48" />
       <button type="button" className="btn btn--lg btn--ghost" onClick={copy} aria-live="polite">
         {copied ? 'Copied ✓' : 'Copy email'}
       </button>
