@@ -729,6 +729,7 @@ html[data-theme='dark'] .theme-btn__moon {
 }
 .cta-box {
   margin-inline: 12px;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 28px;
   padding: clamp(64px, 9vw, 150px) 24px;
@@ -757,12 +758,12 @@ html[data-theme='dark'] .theme-btn__moon {
   gap: 10px;
 }
 .btn--ghost {
-  background: transparent;
+  background: var(--chip); /* same as the About pill */
   color: var(--ink);
-  border-color: var(--line);
+  border-color: transparent;
 }
 .btn--ghost:hover {
-  border-color: var(--ink);
+  border-color: transparent;
 }
 .btn__arrow {
   transition: transform 0.5s var(--ease);
