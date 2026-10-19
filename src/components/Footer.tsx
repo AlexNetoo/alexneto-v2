@@ -23,8 +23,8 @@ export function Footer() {
           <Link href="/">Work</Link>
           <Link href="/about">About</Link>
         </nav>
-        <nav className="footer-col" aria-label="Elsewhere">
-          <span className="footer-col__title">Elsewhere</span>
+        <nav className="footer-col" aria-label="Socials">
+          <span className="footer-col__title">Socials</span>
           {socials.map((s) => (
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
               {s.label} ↗
