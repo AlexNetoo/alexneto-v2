@@ -1,4 +1,3 @@
-import { BrandMarquee } from '@/components/BrandMarquee';
 import { Footer } from '@/components/Footer';
 import { ProjectCard } from '@/components/ProjectCard';
 import { projects } from '@/data/projects';
@@ -9,7 +8,6 @@ export default function Home() {
     <>
       <section className="hero">
         <h1 className="statement">{site.headline}</h1>
-        <BrandMarquee />
       </section>
 
       <section className="projects" aria-label="Selected projects">
