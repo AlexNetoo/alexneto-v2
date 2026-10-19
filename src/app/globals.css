@@ -609,9 +609,9 @@ html[data-theme='dark'] .theme-btn__moon {
   color: var(--ink);
 }
 .pp-intro__lead {
-  font-size: clamp(30px, 2.9vw, 52px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   font-weight: 400;
   color: var(--black);
 }
@@ -629,7 +629,9 @@ html[data-theme='dark'] .theme-btn__moon {
   gap: 24px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 15px;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 .pp-details dt {
   color: var(--muted);
