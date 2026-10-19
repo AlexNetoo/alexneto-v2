@@ -337,6 +337,12 @@ html[data-theme='dark'] .theme-btn__moon {
   color: var(--black);
   text-wrap: balance;
 }
+.hero .statement {
+  max-width: 520px;
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
 @media (max-width: 699px) {
   .hero {
     padding-bottom: calc(18vw);
