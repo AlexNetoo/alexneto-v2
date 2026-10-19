@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Reveal } from '@/components/Reveal';
 import { ResumeTabs } from '@/components/ResumeTabs';
-import { bio, experience, focusTags, site, teaching, whatsappUrl } from '@/data/site';
+import { bio, experience, site, teaching, whatsappUrl } from '@/data/site';
 
 export const metadata: Metadata = { title: 'About', description: site.description };
 
@@ -44,7 +44,7 @@ export default function AboutPage() {
           </div>
         </Reveal>
         <Reveal>
-          <ResumeTabs experience={experience} teaching={teaching} focusTags={focusTags} />
+          <ResumeTabs experience={experience} teaching={teaching} />
         </Reveal>
       </section>
 

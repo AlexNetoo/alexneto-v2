@@ -3,8 +3,9 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Briefcase, GraduationCap, Shapes } from 'lucide-react';
 import { useState } from 'react';
-import type { ResumeRow } from '@/data/site';
+import { services, type ResumeRow } from '@/data/site';
 import { DiscreteTabs, type DiscreteTab } from './discrete-tabs';
+import { FocusAreas } from './FocusAreas';
 import { LiquidIndex, type LiquidItem } from './liquid-index';
 
 const TABS: DiscreteTab[] = [
@@ -29,11 +30,12 @@ const toItems = (rows: ResumeRow[], icon: LiquidItem['icon'], seed: number): Liq
   }));
 
 /**
- * About: pill tabs (useLayouts discrete tabs) switch between design experience, teaching and focus areas.
+ * About: pill tabs (useLayouts discrete tabs) switch between design experience, teaching and focus areas
+ * (the same interactive Focus areas as alexneto.com).
  * The two résumé lists are useLayouts liquid indexes: a liquid-gradient badge follows the hovered row and the
  * role and dates appear under the list. All content comes from src/data/site.ts.
  */
-export function ResumeTabs({ experience, teaching, focusTags }: { experience: ResumeRow[]; teaching: ResumeRow[]; focusTags: string[] }) {
+export function ResumeTabs({ experience, teaching }: { experience: ResumeRow[]; teaching: ResumeRow[] }) {
   const [tab, setTab] = useState(TABS[0].id);
   const reduce = useReducedMotion();
 
@@ -54,15 +56,7 @@ export function ResumeTabs({ experience, teaching, focusTags }: { experience: Re
           >
             {tab === 'experience' && <LiquidIndex items={toItems(experience, Briefcase, 648)} />}
             {tab === 'teaching' && <LiquidIndex items={toItems(teaching, GraduationCap, 291)} />}
-            {tab === 'focus' && (
-              <div className="chips">
-                {focusTags.map((t) => (
-                  <span key={t} className="chip">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
+            {tab === 'focus' && <FocusAreas items={services} />}
           </motion.div>
         </AnimatePresence>
       </div>
