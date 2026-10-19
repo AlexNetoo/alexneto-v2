@@ -889,13 +889,49 @@ html[data-theme='dark'] .theme-btn__moon {
   aspect-ratio: 1492.31 / 158; /* the wordmark, cropped by the bottom edge of the page */
   overflow: hidden;
 }
-.footer-mark span {
+.footer-mark__rise {
   position: absolute;
   inset: 0 0 auto 0;
   aspect-ratio: 1492.31 / 205.221;
+}
+.footer-mark__ink {
+  position: absolute;
+  inset: 0;
   background: var(--ink);
   -webkit-mask: url('/alex-neto-wordmark.svg') center / 100% 100% no-repeat;
   mask: url('/alex-neto-wordmark.svg') center / 100% 100% no-repeat;
+}
+
+/* cursor glow: a layer masked to the letters AND a soft circle at the pointer (see src/lib/glow.ts) */
+.glow {
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+  -webkit-mask:
+    url('/alex-neto-wordmark.svg') center / 100% 100% no-repeat,
+    radial-gradient(circle var(--r, 300px) at var(--mx, -9999px) var(--my, -9999px), #000 0%, rgba(0, 0, 0, 0.85) 32%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask:
+    url('/alex-neto-wordmark.svg') center / 100% 100% no-repeat,
+    radial-gradient(circle var(--r, 300px) at var(--mx, -9999px) var(--my, -9999px), #000 0%, rgba(0, 0, 0, 0.85) 32%, transparent 100%);
+  mask-composite: intersect;
+}
+.glow[data-near='true'] {
+  opacity: 1;
+}
+.footer-mark__glow {
+  position: absolute;
+  inset: 0;
+}
+.wordmark-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 51;
+  transform-origin: 0 0;
+  visibility: hidden; /* shown once positioned */
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,7 +2,9 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { GLOW_COLORS, trackGlow } from '@/lib/glow';
 import { site, whatsappUrl } from '@/data/site';
+import { LiquidGradientCanvas } from './liquid-index-canvas';
 
 const Arrow = () => (
   <svg className="btn__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -63,15 +65,38 @@ export function BackToTop() {
   );
 }
 
-/** The giant wordmark at the very bottom: it rises into place as the footer scrolls into view. */
+/**
+ * The giant wordmark at the very bottom. It rises into place as the footer scrolls into view, and the letters
+ * near the cursor fill with the animated blue liquid gradient (useLayouts liquid index canvas).
+ */
 export function FooterMark() {
   const ref = useRef<HTMLDivElement>(null);
+  const glow = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
+  const [armed, setArmed] = useState(false); // mount the WebGL canvas the first time the cursor gets close
+  const [near, setNear] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
   const y = useTransform(scrollYProgress, [0, 1], ['42%', '0%']);
+
+  useEffect(() => {
+    if (!glow.current) return;
+    return trackGlow(glow.current, {
+      radius: 300,
+      onNear: (n) => {
+        setNear(n);
+        if (n) setArmed(true);
+      },
+    });
+  }, []);
+
   return (
     <div ref={ref} className="footer-mark" aria-hidden="true">
-      <motion.span style={reduce ? undefined : { y }} />
+      <motion.div className="footer-mark__rise" style={reduce ? undefined : { y }}>
+        <span className="footer-mark__ink" />
+        <span ref={glow} className="footer-mark__glow glow">
+          {armed && <LiquidGradientCanvas colors={GLOW_COLORS} seed={377} speed={0.8} idle={!near} />}
+        </span>
+      </motion.div>
     </div>
   );
 }
