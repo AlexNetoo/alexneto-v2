@@ -642,14 +642,14 @@ html[data-theme='dark'] .theme-btn__moon {
   font-weight: 400;
 }
 .pp-gallery {
-  /* edge to edge, with the same 12px margin as the hero */
-  margin-inline: 12px;
+  width: min(1325px, calc(100% - 2 * var(--edge)));
+  margin-inline: auto;
   display: grid;
-  gap: 12px;
+  gap: clamp(16px, 2.4vw, 32px);
 }
 .pp-row {
   display: grid;
-  gap: 12px;
+  gap: clamp(16px, 2.4vw, 32px);
 }
 .pp-row--pair {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -661,7 +661,7 @@ html[data-theme='dark'] .theme-btn__moon {
 }
 .pp-shot {
   position: relative;
-  border-radius: 24px;
+  border-radius: 20px;
   overflow: hidden;
   background: var(--chip);
 }

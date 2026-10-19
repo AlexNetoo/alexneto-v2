@@ -27,9 +27,9 @@ function Shot({ img, alt, ratio, priority = false }: { img: Img; alt: string; ra
         // eslint-disable-next-line @next/next/no-img-element
         <img src={img.src} alt={alt} width={img.w} height={img.h} loading="lazy" className={ratio ? 'pp-shot__fill' : undefined} />
       ) : ratio ? (
-        <Image src={img.src} alt={alt} fill quality={82} sizes="(max-width: 599px) 100vw, 50vw" priority={priority} />
+        <Image src={img.src} alt={alt} fill quality={82} sizes="(max-width: 899px) 100vw, 45vw" priority={priority} />
       ) : (
-        <Image src={img.src} alt={alt} width={img.w} height={img.h} quality={82} sizes="100vw" priority={priority} />
+        <Image src={img.src} alt={alt} width={img.w} height={img.h} quality={82} sizes="(max-width: 699px) 100vw, 70vw" priority={priority} />
       )}
     </div>
   );
