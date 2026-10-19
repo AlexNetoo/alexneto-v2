@@ -14,6 +14,18 @@ npm run dev      # http://localhost:3200
 npm run build && npm start
 ```
 
+## Deploy
+
+Deployed as its own Vercel project, `alexneto-v2` (team alexnetoos-projects), production URL
+https://alexneto-v2.vercel.app. It is **not** connected to Git, so pushes do not deploy; redeploy from this
+folder with Node 20+ and the Vercel CLI logged in as `alexnetoo`:
+
+```bash
+npx vercel deploy --prod --yes
+```
+
+`.vercel/` (the project link) is git-ignored. `robots: noindex` keeps it out of search results.
+
 ## What is here
 
 - **Home** (`/`): statement, then a huge ALEX NETO wordmark along the bottom of the first screen. Scrolling
