@@ -35,3 +35,9 @@ export const nextProject = (slug: string) => {
   const i = projects.findIndex((p) => p.slug === slug);
   return projects[(i + 1) % projects.length];
 };
+
+/** The `count` projects after `slug`, wrapping around (for "more projects"). */
+export const moreProjects = (slug: string, count = 2) => {
+  const i = projects.findIndex((p) => p.slug === slug);
+  return Array.from({ length: Math.min(count, projects.length - 1) }, (_, k) => projects[(i + 1 + k) % projects.length]);
+};

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { Footer } from '@/components/Footer';
 import { Reveal } from '@/components/Reveal';
 import { ResumeTabs } from '@/components/ResumeTabs';
-import { bio, experience, site, teaching, whatsappUrl } from '@/data/site';
+import { bio, experience, site, teaching } from '@/data/site';
 
 export const metadata: Metadata = { title: 'About', description: site.description };
 
@@ -54,13 +55,8 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      <Reveal className="cta-row">
-        <a className="btn" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          Get in touch
-        </a>
-      </Reveal>
 
-      <footer className="footer">© alexneto. All rights reserved.</footer>
+      <Footer />
     </>
   );
 }
