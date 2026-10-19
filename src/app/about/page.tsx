@@ -38,12 +38,6 @@ export default function AboutPage() {
       </section>
 
       <section className="resume" id="resume">
-        <Reveal className="resume__head">
-          <div style={{ display: 'grid', gap: 8 }}>
-            <span className="section-label">Résumé</span>
-            <h2 className="resume__title">Where I’ve worked</h2>
-          </div>
-        </Reveal>
         <Reveal>
           <ResumeTabs experience={experience} teaching={teaching} />
         </Reveal>

@@ -14,6 +14,12 @@ const TABS: DiscreteTab[] = [
   { id: 'focus', title: 'Focus areas', icon: Shapes },
 ];
 
+const TITLES: Record<string, string> = {
+  experience: 'Where I’ve worked',
+  teaching: 'Where I’ve taught',
+  focus: 'What I focus on',
+};
+
 const BLUE: [number, number, number][] = [
   [10, 16, 44],
   [60, 120, 250],
@@ -41,6 +47,20 @@ export function ResumeTabs({ experience, teaching }: { experience: ResumeRow[]; 
 
   return (
     <div style={{ display: 'grid', gap: 24 }}>
+      <h2 className="resume__title" style={{ marginBottom: 8 }}>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={tab}
+            style={{ display: 'block' }}
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
+            transition={{ duration: reduce ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {TITLES[tab]}
+          </motion.span>
+        </AnimatePresence>
+      </h2>
       <DiscreteTabs tabs={TABS} value={tab} onChange={setTab} label="Résumé sections" />
       <div className="resume__panel">
         <AnimatePresence mode="wait" initial={false}>
