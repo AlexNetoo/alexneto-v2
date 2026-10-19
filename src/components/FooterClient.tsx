@@ -7,24 +7,11 @@ import { site, whatsappUrl } from '@/data/site';
 import { BookACallLink } from './get-in-touch';
 import { LiquidGradientCanvas } from './liquid-index-canvas';
 
-/** "Get in touch" (WhatsApp, like the live site) and a one-click "Copy email". */
+/** "Get in touch" (WhatsApp, like the live site) with the useLayouts hover effect. */
 export function FooterActions() {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(site.email);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      window.location.href = `mailto:${site.email}`;
-    }
-  };
   return (
     <div className="cta-actions">
       <BookACallLink href={whatsappUrl} className="w-48" />
-      <button type="button" className="btn btn--lg btn--ghost" onClick={copy} aria-live="polite">
-        {copied ? 'Copied ✓' : 'Copy email'}
-      </button>
     </div>
   );
 }

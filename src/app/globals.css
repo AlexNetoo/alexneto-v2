@@ -748,14 +748,6 @@ html[data-theme='dark'] .theme-btn__moon {
   font-size: 17px;
   gap: 10px;
 }
-.btn--ghost {
-  background: var(--chip); /* same as the About pill */
-  color: var(--ink);
-  border-color: transparent;
-}
-.btn--ghost:hover {
-  border-color: transparent;
-}
 .btn__arrow {
   transition: transform 0.5s var(--ease);
 }
