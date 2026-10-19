@@ -55,6 +55,29 @@
   }
 }
 
+/* ---------- dark mode (html[data-theme='dark'], set before paint, see layout.tsx) ---------- */
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0c0c0c;
+  --surface: #161616;
+  --ink: #ececee;
+  --black: #ffffff;
+  --muted: #9a9aa2;
+  --dim: #5f5f66;
+  --line: #26262a;
+  --chip: #202024;
+  --inverted: #f2f2f3;
+  --on-inverted: #111115;
+}
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.5s var(--ease),
+    color 0.5s var(--ease),
+    border-color 0.5s var(--ease) !important;
+}
+
 *,
 *::before,
 *::after {
@@ -141,7 +164,7 @@ img {
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  border: 1px solid #eee;
+  border: 1px solid var(--line);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   background: #fff;
@@ -182,8 +205,10 @@ img {
 .pill--dark {
   background: var(--inverted);
   color: var(--on-inverted);
-  text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+html:not([data-theme='dark']) .pill--dark {
+  text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.15);
 }
 .pill--dark::after {
   content: '';
@@ -198,9 +223,37 @@ img {
   outline: 1.5px solid var(--ink);
   outline-offset: -1.5px;
 }
+/* round icon button after Contact */
+.theme-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  cursor: pointer;
+}
+.theme-btn svg {
+  position: absolute;
+  transition:
+    transform 0.6s var(--ease),
+    opacity 0.4s var(--ease);
+}
+.theme-btn__moon {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.6);
+}
+html[data-theme='dark'] .theme-btn__sun {
+  opacity: 0;
+  transform: rotate(60deg) scale(0.6);
+}
+html[data-theme='dark'] .theme-btn__moon {
+  opacity: 1;
+  transform: none;
+}
 @media (max-width: 699px) {
   .nav {
     padding: 16px;
+  }
+  .nav__links {
+    gap: 8px;
   }
 }
 
@@ -283,7 +336,7 @@ img {
   aspect-ratio: 565 / 748;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #d9d9d9;
+  background: var(--chip);
   isolation: isolate;
 }
 .card__img {
@@ -308,28 +361,6 @@ img {
   mix-blend-mode: multiply;
   pointer-events: none;
 }
-.card__name {
-  position: absolute;
-  left: 50%;
-  top: calc(50% - 21px);
-  width: 256px;
-  max-width: 90%;
-  translate: -50% -50%;
-  text-align: center;
-  font-size: 24px;
-  line-height: 26px;
-  font-weight: 600;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-.card__name--diff {
-  color: #fff;
-  mix-blend-mode: difference;
-}
-.card__name--sat {
-  color: #808080;
-  mix-blend-mode: saturation;
-}
 @media (max-width: 599px) {
   .card {
     aspect-ratio: 1; /* the project covers are square: show them whole on phones */
@@ -347,9 +378,9 @@ img {
   justify-content: center;
   padding: 10px 16px;
   border-radius: 8px;
-  background: #000;
-  color: #fff;
-  border: 1px solid #000;
+  background: var(--inverted);
+  color: var(--on-inverted);
+  border: 1px solid var(--inverted);
   font-size: 16px;
   font-weight: 500;
   line-height: 1;
@@ -394,7 +425,7 @@ img {
   aspect-ratio: 4 / 5;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #d9d9d9;
+  background: var(--chip);
 }
 .portrait img {
   object-fit: cover;
@@ -524,7 +555,7 @@ img {
   position: relative;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #d9d9d9;
+  background: var(--chip);
 }
 .pp-shot img {
   width: 100%;

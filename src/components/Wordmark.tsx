@@ -38,7 +38,7 @@ export function Wordmark() {
       const navH = phone ? 72 : 88;
       const W0 = vw * (phone ? 0.9 : 0.777); // Figma: 1492 of 1920
       const H0 = W0 * RATIO;
-      const W1 = phone ? 96 : clamp(vw * 0.094, 110, 200); // Figma: 180 at 1920
+      const W1 = phone ? 80 : clamp(vw * 0.094, 110, 200); // Figma: 180 at 1920
       const H1 = W1 * RATIO;
       return {
         W0,
@@ -46,7 +46,7 @@ export function Wordmark() {
         s1: W1 / W0,
         x0: (vw - W0) / 2,
         // phones have no room beside the avatar and pills for a centred title: dock it after the avatar
-        x1: phone ? 72 : (vw - W1) / 2,
+        x1: phone ? 66 : (vw - W1) / 2,
         // Figma: the wordmark's bottom edge sits a hair below the fold
         y0: vh - H0 + vh * 0.007,
         y1: (navH - H1) / 2,

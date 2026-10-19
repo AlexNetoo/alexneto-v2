@@ -14,7 +14,7 @@ const BLUE: [number, number, number][] = [
 ];
 
 /**
- * A portrait project card (565 x 748 in the Figma file). The name sits over the image and inverts against it.
+ * A portrait project card (565 x 748 in the Figma file): just the image, no name (the link keeps an aria-label).
  * On hover the card cycles through the project's own images, and a liquid gradient (useLayouts liquid index)
  * washes over it. Rows fade in as they scroll into view.
  */
@@ -84,12 +84,6 @@ export function ProjectCard({ project: p, index }: { project: Project; index: nu
           </motion.div>
         )}
 
-        <span className="card__name card__name--diff" aria-hidden="true">
-          {p.title}
-        </span>
-        <span className="card__name card__name--sat" aria-hidden="true">
-          {p.title}
-        </span>
       </Link>
     </motion.div>
   );

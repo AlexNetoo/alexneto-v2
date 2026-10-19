@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { site, whatsappUrl } from '@/data/site';
+import { ThemeToggle } from './ThemeToggle';
 
 /** Fixed top bar from the Figma file: avatar on the left, About and Contact pills on the right. */
 export function Nav() {
@@ -20,6 +21,7 @@ export function Nav() {
         <a href={whatsappUrl} className="pill pill--dark" target="_blank" rel="noopener noreferrer">
           Contact
         </a>
+        <ThemeToggle />
       </nav>
     </header>
   );

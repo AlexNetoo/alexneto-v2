@@ -155,8 +155,8 @@ export function LiquidIndex({ items: ITEMS }: { items: LiquidItem[] }) {
                 }}
                 className={
                   isPhone
-                    ? "flex w-full cursor-pointer flex-col items-start gap-[5px] py-[5px] text-left"
-                    : "flex w-auto max-w-full cursor-pointer flex-col items-start gap-0 py-[6px] text-left"
+                    ? "flex w-full cursor-pointer flex-col items-start gap-[3px] py-[8px] text-left"
+                    : "flex w-auto max-w-full cursor-pointer flex-col items-start gap-0 py-[10px] text-left"
                 }
                 animate={{ paddingLeft: isActive ? 8 : 0 }}
                 transition={transition}
@@ -179,46 +179,14 @@ export function LiquidIndex({ items: ITEMS }: { items: LiquidItem[] }) {
                 >
                   {item.title}
                 </motion.span>
-                <AnimatePresence initial={false}>
-                  {isPhone && isActive ? (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={transition}
-                      className="max-w-[520px] overflow-hidden text-[16px] font-normal leading-[1.45em] tracking-[-0.018em] text-pretty text-muted-foreground"
-                    >
-                      {item.description}
-                    </motion.p>
-                  ) : null}
-                </AnimatePresence>
+                <span className="block max-w-[520px] select-none pb-1 text-[16px] font-normal leading-[1.4em] tracking-[-0.01em] text-muted-foreground">
+                  {item.description}
+                </span>
               </motion.button>
             )
           })}
         </div>
 
-        <div
-          className={
-            isPhone
-              ? "hidden"
-              : "min-h-[56px] w-full max-w-[520px]"
-          }
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {active != null ? (
-              <motion.p
-                key={current.title}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={transition}
-                className="text-[18px] font-normal leading-[1.4em] tracking-[-0.015em] text-pretty text-muted-foreground"
-              >
-                {current.description}
-              </motion.p>
-            ) : null}
-          </AnimatePresence>
-        </div>
       </div>
     </div>
   )
