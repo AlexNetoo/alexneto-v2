@@ -1,0 +1,343 @@
+[
+  {
+    "slug": "vity",
+    "title": "Vity.ai",
+    "year": "2026",
+    "scope": "Product Design, Design System",
+    "industry": "AI, Technology",
+    "featured": true,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-cover-1600-1600-K6SUS00cxNieGMAahIO8bnCNnjfXe1.webp",
+      "w": 2400,
+      "h": 2400
+    },
+    "gallery": [
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-1-jsseJz2g0O8JLYoHjYpUZZL2Rioy2g.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-2-PJf9otekjNpYoWx6Qr9nQnky7xE71F.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-3-XfD8PzWHd2DwpwCHJHdTrFbgnaazwI.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-4-URA4OKSSccuv96BkErvXQEMzdrSr9H.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-5-8LrjdeHlfoUntr7xHoLu7FMwbQtc9h.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-6-lq7UXSKPVtjhOAIn3VSzjJXjPyhX1i.webp",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/vity-ai/vity-7-wpqv7QsL0H2uKMs9pl6Pjpa5sw6rxw.webp",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  },
+  {
+    "slug": "uswap",
+    "title": "uSwap",
+    "year": "2025",
+    "scope": "Product design",
+    "featured": true,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/uswap/us-cover-zOr5t6y0hRn3pC7xbi6FQOKhfTAHlT.webp",
+      "w": 1600,
+      "h": 1600
+    },
+    "gallery": [
+      {
+        "src": "/projects/uswap/01.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/02.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/03.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/04.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/05.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/06.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/07.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/uswap/08.jpg",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  },
+  {
+    "slug": "donecenter",
+    "title": "Done Center",
+    "year": "2026",
+    "link": "https://www.done.center/",
+    "focus": "16% 50%",
+    "featured": true,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/donecenter/cover-done-center-5igikYTXPHIRpdoB71M9lVXeRuT3aQ.webp",
+      "w": 1600,
+      "h": 1600
+    },
+    "gallery": [
+      {
+        "src": "/projects/donecenter/01.jpg",
+        "w": 2400,
+        "h": 1562
+      },
+      {
+        "src": "/projects/donecenter/02.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/donecenter/03.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/donecenter/04.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/donecenter/05.jpg",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  },
+  {
+    "slug": "hns-market",
+    "title": "HNS Market",
+    "year": "2025",
+    "scope": "Product design",
+    "featured": false,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/hns-market/hnsmarket-cover-2ZeZMBDbx8fUSxO1s8oFbCXvKVcpgu.webp",
+      "w": 2400,
+      "h": 2400
+    },
+    "gallery": [
+      {
+        "src": "/projects/hns-market/01.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/02.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/03.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/04.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/05.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/06.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/hns-market/07.jpg",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  },
+  {
+    "slug": "namebase",
+    "title": "Namebase",
+    "year": "2022–25",
+    "link": "https://namebase.io/",
+    "featured": false,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/namebase/nb-cover-cJl0YVDNlIAXWJ3vibBZPkF5qoYrWH.webp",
+      "w": 1600,
+      "h": 1600
+    },
+    "gallery": [
+      {
+        "src": "/projects/namebase/01.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/02.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/03.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/04.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/05.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/06.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/07.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/namebase/08.jpg",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  },
+  {
+    "slug": "hns-switch",
+    "title": "HNS Switch",
+    "year": "2025",
+    "scope": "Product design",
+    "featured": false,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/hns-switch/hns-switch-cover-eCCWA4ksiBy8bwAoSjIkJPK8m0k7u0.webp",
+      "w": 2400,
+      "h": 2400
+    },
+    "gallery": [
+      {
+        "src": "/projects/hns-switch/01.gif",
+        "w": 1920,
+        "h": 1274,
+        "animated": true
+      },
+      {
+        "src": "/projects/hns-switch/02.jpg",
+        "w": 2400,
+        "h": 1537
+      },
+      {
+        "src": "/projects/hns-switch/03.jpg",
+        "w": 2400,
+        "h": 1537
+      },
+      {
+        "src": "/projects/hns-switch/04.jpg",
+        "w": 2400,
+        "h": 1537
+      },
+      {
+        "src": "/projects/hns-switch/05.jpg",
+        "w": 2400,
+        "h": 1537
+      },
+      {
+        "src": "/projects/hns-switch/06.jpg",
+        "w": 2400,
+        "h": 1537
+      }
+    ]
+  },
+  {
+    "slug": "lodge",
+    "title": "Lodge",
+    "year": "2025",
+    "scope": "Product design",
+    "featured": false,
+    "cover": {
+      "src": "https://sx2y68x2vcipz9e8.public.blob.vercel-storage.com/alexneto-site/projects/lodge/lodge-cover-YcKZTelLrRkNkDaDID93ZoJzTYyDdt.webp",
+      "w": 1600,
+      "h": 1600
+    },
+    "gallery": [
+      {
+        "src": "/projects/lodge/01.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/02.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/03.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/04.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/05.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/06.jpg",
+        "w": 2400,
+        "h": 1350
+      },
+      {
+        "src": "/projects/lodge/07.jpg",
+        "w": 2400,
+        "h": 1350
+      }
+    ]
+  }
+]
