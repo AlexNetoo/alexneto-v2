@@ -43,13 +43,6 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      <section className="offclock">
-        <Reveal>
-          <p className="statement">{bio.personal}</p>
-        </Reveal>
-      </section>
-
-
       <Footer />
     </>
   );

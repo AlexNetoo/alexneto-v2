@@ -525,15 +525,6 @@ html[data-theme='dark'] .theme-btn__moon {
   font-size: 15px;
   font-weight: 500;
 }
-.offclock {
-  padding: clamp(96px, 12vw, 180px) 8px 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-.offclock .statement {
-  max-width: 640px;
-}
 
 /* ---------- project page (after offmenu.design/work/closetnow) ---------- */
 .u {
