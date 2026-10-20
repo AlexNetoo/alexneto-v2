@@ -3,9 +3,7 @@
 import { useScroll } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { GLOW_COLORS, trackGlow } from '@/lib/glow';
-import { LiquidGradientCanvas } from './liquid-index-canvas';
+import { useEffect, useRef } from 'react';
 
 /** Height / width of /alex-neto-wordmark.svg (1492.31 x 205.221, from the Figma file). */
 const RATIO = 205.221 / 1492.31;
@@ -25,16 +23,12 @@ export function Wordmark() {
   const docked = pathname !== '/';
   const main = useRef<HTMLAnchorElement>(null);
   const sat = useRef<HTMLSpanElement>(null);
-  const glow = useRef<HTMLSpanElement>(null);
-  const [armed, setArmed] = useState(false);
-  const [near, setNear] = useState(false);
   const { scrollY } = useScroll();
 
   useEffect(() => {
     const a = main.current;
     const b = sat.current;
-    const gl = glow.current;
-    if (!a || !b || !gl) return;
+    if (!a || !b) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const geo = () => {
@@ -71,12 +65,11 @@ export function Wordmark() {
       const tf = `translate3d(${x}px, ${Y}px, 0) scale(${S})`;
       a.style.transform = tf;
       b.style.transform = tf;
-      gl.style.transform = tf;
       a.style.pointerEvents = raw > 0.98 ? 'auto' : 'none';
       a.tabIndex = raw > 0.98 ? 0 : -1;
     };
     const size = () => {
-      for (const el of [a, b, gl]) {
+      for (const el of [a, b]) {
         el.style.width = `${g.W0}px`;
         el.style.height = `${g.H0}px`;
       }
@@ -85,7 +78,6 @@ export function Wordmark() {
     apply(scrollY.get());
     a.style.opacity = '1';
     b.style.opacity = '1';
-    gl.style.visibility = 'visible';
 
     const off = scrollY.on('change', apply);
     const onResize = () => {
@@ -94,16 +86,8 @@ export function Wordmark() {
       apply(scrollY.get());
     };
     window.addEventListener('resize', onResize);
-    const stopGlow = trackGlow(gl, {
-      radius: 300,
-      onNear: (n) => {
-        setNear(n);
-        if (n) setArmed(true);
-      },
-    });
     return () => {
       off();
-      stopGlow();
       window.removeEventListener('resize', onResize);
     };
   }, [docked, scrollY]);
@@ -112,9 +96,6 @@ export function Wordmark() {
     <>
       <span ref={sat} className="wordmark-sat" aria-hidden="true">
         <span className="wordmark__ink" />
-      </span>
-      <span ref={glow} className="wordmark-glow glow" aria-hidden="true">
-        {armed && <LiquidGradientCanvas colors={GLOW_COLORS} seed={377} speed={0.8} idle={!near} />}
       </span>
       <Link ref={main} href="/" className="wordmark" aria-label="Alex Neto, home">
         <span className="wordmark__ink" />
