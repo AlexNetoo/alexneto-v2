@@ -5,25 +5,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { Project } from '@/data/projects';
-import { LiquidGradientCanvas } from './liquid-index-canvas';
-
-const BLUE: [number, number, number][] = [
-  [10, 16, 44],
-  [60, 120, 250],
-  [150, 190, 255],
-];
 
 /**
  * A portrait project card (565 x 748 in the Figma file): just the image, no name (the link keeps an aria-label).
- * On hover the card cycles through the project's own images, and a liquid gradient (useLayouts liquid index)
- * washes over it. Rows fade in as they scroll into view.
+ * On hover the card cycles through the project's own images. Rows fade in as they scroll into view.
  */
 export function ProjectCard({ project: p, index }: { project: Project; index: number }) {
   const reduce = useReducedMotion();
   const imgs = [p.cover, ...p.gallery.filter((g) => !g.animated).slice(0, 4)];
   const [i, setI] = useState(0);
   const [hover, setHover] = useState(false);
-  const [everHovered, setEverHovered] = useState(false); // mount the WebGL overlay on first hover only
 
   useEffect(() => {
     if (!hover || reduce) {
@@ -34,10 +25,7 @@ export function ProjectCard({ project: p, index }: { project: Project; index: nu
     return () => clearInterval(t);
   }, [hover, reduce, imgs.length]);
 
-  const on = () => {
-    setHover(true);
-    setEverHovered(true);
-  };
+  const on = () => setHover(true);
 
   return (
     <motion.div
@@ -77,13 +65,6 @@ export function ProjectCard({ project: p, index }: { project: Project; index: nu
             </motion.div>
           </AnimatePresence>
         </div>
-
-        {everHovered && !reduce && (
-          <motion.div className="card__liquid" initial={false} animate={{ opacity: hover ? 0.5 : 0 }} transition={{ duration: 0.6 }} aria-hidden="true">
-            <LiquidGradientCanvas colors={BLUE} seed={(index + 2) * 61} idle={!hover} />
-          </motion.div>
-        )}
-
       </Link>
     </motion.div>
   );

@@ -385,12 +385,6 @@ html[data-theme='dark'] .theme-btn__moon {
 .card:focus-visible .card__zoom {
   transform: scale(1.04);
 }
-.card__liquid {
-  position: absolute;
-  inset: 0;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
 @media (max-width: 599px) {
   .card {
     aspect-ratio: 1; /* the project covers are square: show them whole on phones */
