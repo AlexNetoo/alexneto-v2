@@ -886,6 +886,7 @@ html[data-theme='dark'] .theme-btn__moon {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s var(--ease);
+  filter: hue-rotate(var(--hue, 0deg)) saturate(1.2);
   -webkit-mask:
     url('/alex-neto-wordmark.svg') center / 100% 100% no-repeat,
     radial-gradient(circle var(--r, 300px) at var(--mx, -9999px) var(--my, -9999px), #000 0%, rgba(0, 0, 0, 0.85) 32%, transparent 100%);

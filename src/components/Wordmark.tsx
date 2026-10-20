@@ -62,18 +62,47 @@ export function Wordmark() {
     };
     let g = geo();
 
-    const apply = (y: number) => {
-      const raw = docked || reduced ? 1 : clamp(y / g.D, 0, 1);
-      const t = raw * raw * (3 - 2 * raw); // smoothstep
+    const rawOf = (y: number) => (docked || reduced ? 1 : clamp(y / g.D, 0, 1));
+    const render = (raw: number) => {
+      const t = raw * raw * raw * (raw * (raw * 6 - 15) + 10); // smootherstep: gentler start and finish than smoothstep
       const x = lerp(g.x0, g.x1, t);
       const Y = lerp(g.y0, g.y1, t);
-      const S = lerp(1, g.s1, t);
+      const S = Math.pow(g.s1, t); // shrink at a constant rate, not linearly in size
       const tf = `translate3d(${x}px, ${Y}px, 0) scale(${S})`;
       a.style.transform = tf;
       b.style.transform = tf;
       gl.style.transform = tf;
       a.style.pointerEvents = raw > 0.98 ? 'auto' : 'none';
       a.tabIndex = raw > 0.98 ? 0 : -1;
+    };
+
+    // The drawn progress eases toward the scroll position (frame-rate independent), so the wordmark glides
+    // even when the wheel moves in steps, and settles softly instead of stopping dead.
+    let target = rawOf(scrollY.get());
+    let cur = target;
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      raf = 0;
+      const dt = Math.min(0.05, (now - (last || now)) / 1000 || 0.016);
+      last = now;
+      cur += (target - cur) * (1 - Math.exp(-dt * 11));
+      if (Math.abs(target - cur) < 0.0003) {
+        cur = target;
+        last = 0;
+      } else {
+        raf = requestAnimationFrame(tick);
+      }
+      render(cur);
+    };
+    const apply = (y: number) => {
+      target = rawOf(y);
+      if (reduced || docked) {
+        cur = target;
+        render(cur);
+      } else if (!raf) {
+        raf = requestAnimationFrame(tick);
+      }
     };
     const size = () => {
       for (const el of [a, b, gl]) {
@@ -82,7 +111,7 @@ export function Wordmark() {
       }
     };
     size();
-    apply(scrollY.get());
+    render(cur);
     a.style.opacity = '1';
     b.style.opacity = '1';
     gl.style.visibility = 'visible';
@@ -91,7 +120,8 @@ export function Wordmark() {
     const onResize = () => {
       g = geo();
       size();
-      apply(scrollY.get());
+      target = cur = rawOf(scrollY.get());
+      render(cur);
     };
     window.addEventListener('resize', onResize);
     const stopGlow = trackGlow(gl, {
@@ -104,6 +134,7 @@ export function Wordmark() {
     return () => {
       off();
       stopGlow();
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
     };
   }, [docked, scrollY]);
