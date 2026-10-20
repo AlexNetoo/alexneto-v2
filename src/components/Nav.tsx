@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { site, whatsappUrl } from '@/data/site';
-import { BookACallLink } from './get-in-touch';
 import { ThemeToggle } from './ThemeToggle';
 
 /** Fixed top bar from the Figma file: avatar on the left, About and Contact pills on the right. */
@@ -19,7 +18,9 @@ export function Nav() {
         <Link href="/about" className="pill" aria-current={pathname === '/about' ? 'page' : undefined}>
           About
         </Link>
-        <BookACallLink href={whatsappUrl} defaultText="CONTACT" className="h-10 w-44 max-[699px]:w-[88px]" />
+        <a href={whatsappUrl} className="pill" target="_blank" rel="noopener noreferrer">
+          Contact
+        </a>
         <ThemeToggle />
       </nav>
     </header>
