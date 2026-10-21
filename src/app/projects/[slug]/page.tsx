@@ -62,14 +62,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   return (
     <>
       <section className="pp-hero">
-        {/* wide image on larger screens, the square cover on phones (a tall crop of a 16:9 screen is unreadable) */}
-        {hero.animated ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={hero.src} alt="" className="pp-hero__img pp-hero__img--wide" />
-        ) : (
-          <Image src={hero.src} alt="" fill priority quality={82} sizes="100vw" className="pp-hero__img pp-hero__img--wide" style={p.focus ? { objectPosition: p.focus } : undefined} />
-        )}
-        <Image src={p.cover.src} alt="" fill quality={80} sizes="100vw" className="pp-hero__img pp-hero__img--phone" style={p.focus ? { objectPosition: p.focus } : undefined} />
+        <Shot img={hero} alt="" priority />
         <div className="pp-hero__shade" />
         <h1 className="pp-hero__title">{p.title}</h1>
       </section>
