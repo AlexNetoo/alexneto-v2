@@ -71,10 +71,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       <section className="pp-intro">
         <Reveal className="pp-intro__text">
           <span className="section-label">Overview</span>
-          <p className="pp-intro__lead">
-            {p.title}
-            <span className="pp-intro__sub">{[categoryOf(p), p.industry, p.year].filter(Boolean).join(' · ')}</span>
-          </p>
           {p.description && <p className="pp-intro__desc">{p.description}</p>}
         </Reveal>
         <Reveal delay={0.08} className="pp-intro__details">
