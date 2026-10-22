@@ -589,6 +589,13 @@ html[data-theme='dark'] .theme-btn__moon {
   margin-top: 0.2em;
   color: var(--muted);
 }
+.pp-intro__desc {
+  max-width: 520px;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  color: var(--muted);
+}
 .pp-details {
   border-top: 1px solid var(--line);
 }

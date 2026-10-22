@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import type { Project } from '@/data/projects';
 import { AdminAnalytics } from './AdminAnalytics';
-import { AlertBanner, AlertDialog, Badge, Button, Card, Caption, Checkbox, Heading, IconButton, Label as KitLabel, SwitchToggle, Tabs, TextInput } from '@/halaska-kit';
+import { AlertBanner, AlertDialog, Badge, Button, Card, Caption, Checkbox, Heading, IconButton, Label as KitLabel, SwitchToggle, Tabs, TextArea, TextInput } from '@/halaska-kit';
 import { AdminPortal } from './AdminProviders';
 import { MediaLibrary } from './MediaLibrary';
 import { fromImg, itemFromFile, itemFromUrl, slugify, thumb, uploadItem, type ImgItem } from './images';
@@ -18,12 +18,13 @@ type Form = {
   link: string;
   industry: string;
   scope: string;
+  description: string;
   featured: boolean;
   cover: ImgItem | null;
   gallery: ImgItem[];
 };
 
-const emptyForm: Form = { title: '', slug: '', year: '', link: '', industry: '', scope: '', featured: false, cover: null, gallery: [] };
+const emptyForm: Form = { title: '', slug: '', year: '', link: '', industry: '', scope: '', description: '', featured: false, cover: null, gallery: [] };
 
 type Notice = { kind: 'ok' | 'err'; text: string } | null;
 type Picker = null | 'cover' | 'gallery';
@@ -106,6 +107,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
       link: p.link ?? '',
       industry: p.industry ?? '',
       scope: p.scope ?? '',
+      description: p.description ?? '',
       featured: Boolean(p.featured),
       cover: fromImg(p.cover),
       gallery: p.gallery.map(fromImg),
@@ -200,6 +202,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
         link: form.link.trim() || undefined,
         industry: form.industry.trim() || undefined,
         scope: form.scope.trim() || undefined,
+        description: form.description.trim() || undefined,
         focus: old?.focus,
         featured: form.featured,
         cover,
@@ -323,6 +326,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                   <TextInput label="Project Link (optional)" value={form.link} placeholder="https://" onChange={(v: string) => set('link', v)} />
                   <TextInput label="Industry (optional)" value={form.industry} placeholder="e.g., Technology, Healthcare, Finance" onChange={(v: string) => set('industry', v)} />
                   <TextInput label="Scope of Work (optional)" value={form.scope} placeholder="e.g., Product design" onChange={(v: string) => set('scope', v)} />
+                  <TextArea label="Description (optional)" value={form.description} placeholder="A sentence or two about the project" rows={3} caption="Shown under the title on the project page." onChange={(v: string) => set('description', v.slice(0, 600))} />
 
                   <div>
                     <Label>Cover Image *</Label>

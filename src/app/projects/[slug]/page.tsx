@@ -46,7 +46,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const details: [string, string | React.ReactNode][] = [
     ['Project', p.title],
     ...(p.year ? ([['Timeframe', p.year]] as [string, string][]) : []),
-    ['Role', site.role],
     ...(p.industry ? ([['Industry', p.industry]] as [string, string][]) : []),
     ['Scope', categoryOf(p)],
     ...(p.link
@@ -76,6 +75,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             {p.title}
             <span className="pp-intro__sub">{[categoryOf(p), p.industry, p.year].filter(Boolean).join(' · ')}</span>
           </p>
+          {p.description && <p className="pp-intro__desc">{p.description}</p>}
         </Reveal>
         <Reveal delay={0.08} className="pp-intro__details">
           <span className="section-label">Details</span>

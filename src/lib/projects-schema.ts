@@ -86,6 +86,7 @@ export function parseProject(raw: unknown): Parsed<Project> {
     ...(text(r.year, 12) ? { year: text(r.year, 12) } : {}),
     ...(text(r.scope, 100) ? { scope: text(r.scope, 100) } : {}),
     ...(text(r.industry, 100) ? { industry: text(r.industry, 100) } : {}),
+    ...(text(r.description, 600) ? { description: text(r.description, 600) } : {}),
     ...(link ? { link } : {}),
     ...(focus && /^[0-9.% ]+$/.test(focus) ? { focus } : {}),
     featured: r.featured === true,

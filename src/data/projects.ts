@@ -10,6 +10,8 @@ export type Project = {
   focus?: string;
   scope?: string;
   industry?: string;
+  /** A short description, shown under the overview on the project page. */
+  description?: string;
   link?: string;
   featured?: boolean;
   cover: Img;
