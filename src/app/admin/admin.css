@@ -168,7 +168,7 @@ body:has(.hk-root) {
 }
 .adm-cover img {
   width: 160px;
-  aspect-ratio: 1;
+  aspect-ratio: 565 / 748; /* same shape as the cards on the landing page */
   object-fit: cover;
   border-radius: 12px;
   background: var(--hk-bg-muted);

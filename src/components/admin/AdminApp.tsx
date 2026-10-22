@@ -44,6 +44,8 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
   const [dragOver, setDragOver] = useState<number | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const formTop = useRef<HTMLDivElement>(null);
+  const coverInput = useRef<HTMLInputElement>(null);
+  const galleryInput = useRef<HTMLInputElement>(null);
 
   const say = (kind: 'ok' | 'err', text: string) => {
     clearTimeout(noticeTimer.current);
@@ -246,7 +248,8 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
 
   const featuredCount = projects.filter((p) => p.featured).length;
   const tabNames = { projects: 'Projects', analytics: 'Analytics' } as const;
-  const coverOk = form.cover && form.cover.w === form.cover.h;
+  // the landing page cards are 565 x 748 (portrait): a cover within 2% of that ratio is shown uncropped
+  const coverOk = form.cover && Math.abs(form.cover.w / form.cover.h / (565 / 748) - 1) < 0.02;
 
   return (
     <div className="adm-page">
@@ -323,7 +326,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
 
                   <div>
                     <Label>Cover Image *</Label>
-                    <Hint>Ideal: square, 1600×1600 · Max 10MB · JPG, PNG, GIF, WebP</Hint>
+                    <Hint>Ideal: portrait 565:748, like the cards on the landing page (e.g. 1130×1496) · Max 10MB · JPG, PNG, GIF, WebP</Hint>
                     {form.cover ? (
                       <div className="adm-cover">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -332,7 +335,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                           <Hint>
                             {form.cover.w}×{form.cover.h}
                             {form.cover.file ? ' · will upload on save' : ''}
-                            {coverOk ? ' · square ✓' : ' · not square, it will be cropped to a square on the project cards'}
+                            {coverOk ? ' · matches the landing page cards ✓' : ' · not 565:748, it will be cropped to fit the landing page cards'}
                           </Hint>
                           <Button type="button" variant="outline" size="sm" onClick={() => set('cover', null)}>
                             Remove
@@ -341,7 +344,10 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                       </div>
                     ) : (
                       <div className="adm-row adm-row--wrap">
-                        <input className="adm-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => pickCover(e.target.files?.[0])} />
+                        <input ref={coverInput} hidden type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(e) => pickCover(e.target.files?.[0])} />
+                        <Button type="button" variant="secondary" size="sm" onClick={() => coverInput.current?.click()}>
+                          Upload image
+                        </Button>
                         <Button type="button" variant="secondary" size="sm" onClick={() => setPicker('cover')}>
                           Choose from library
                         </Button>
@@ -376,7 +382,8 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                     )}
                     <div className="adm-row adm-row--wrap">
                       <input
-                        className="adm-file"
+                        ref={galleryInput}
+                        hidden
                         type="file"
                         multiple
                         accept="image/jpeg,image/png,image/webp,image/gif"
@@ -384,6 +391,9 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                         onChange={(e) => addFiles(e.target.files)}
                         disabled={form.gallery.length >= MAX_GALLERY}
                       />
+                      <Button type="button" variant="secondary" size="sm" onClick={() => galleryInput.current?.click()} disabled={form.gallery.length >= MAX_GALLERY}>
+                        Upload images
+                      </Button>
                       <Button type="button" variant="secondary" size="sm" onClick={() => setPicker('gallery')} disabled={form.gallery.length >= MAX_GALLERY}>
                         Choose from library
                       </Button>
