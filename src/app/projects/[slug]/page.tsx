@@ -4,18 +4,19 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Footer } from '@/components/Footer';
 import { Reveal } from '@/components/Reveal';
-import { categoryOf, linkHost, metaLine, moreProjects, projects, type Img } from '@/data/projects';
+import { categoryOf, linkHost, metaLine, moreProjects, type Img } from '@/data/projects';
+import { getProjects } from '@/lib/projects-store';
 import { site } from '@/data/site';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getProjects()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
-  const p = projects.find((x) => x.slug === slug);
+  const p = (await getProjects()).find((x) => x.slug === slug);
   if (!p) return {};
   return { title: p.title, description: `${p.title}, ${metaLine(p)}, by ${site.name}.` };
 }
@@ -35,12 +36,13 @@ function Shot({ img, alt, priority = false }: { img: Img; alt: string; priority?
 
 export default async function ProjectPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
+  const projects = await getProjects();
   const p = projects.find((x) => x.slug === slug);
   if (!p) notFound();
 
   const hero = p.gallery[0] ?? p.cover;
   const rest = p.gallery.slice(1);
-  const more = moreProjects(slug, 2);
+  const more = moreProjects(projects, slug, 2);
   const details: [string, string | React.ReactNode][] = [
     ['Project', p.title],
     ...(p.year ? ([['Timeframe', p.year]] as [string, string][]) : []),

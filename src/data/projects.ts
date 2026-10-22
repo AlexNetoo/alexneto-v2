@@ -17,10 +17,11 @@ export type Project = {
 };
 
 /**
- * The live alexneto.com project list, copied once (src/data/projects.snapshot.json) so this test site
- * runs without any of the live site's storage or keys. Images are the same Vercel Blob files.
+ * The starting list: the live alexneto.com projects, copied once (src/data/projects.snapshot.json).
+ * Once the admin (/admin) saves, the list kept in Vercel Blob takes over (see src/lib/projects-store.ts).
+ * Images are the same Vercel Blob files as alexneto.com.
  */
-export const projects = snapshot as Project[];
+export const SEED_PROJECTS = snapshot as Project[];
 
 export const categoryOf = (p: Project) => p.scope ?? (p.link ? 'Live site' : 'Case study');
 export const metaLine = (p: Project) => [categoryOf(p), p.year].filter(Boolean).join(' · ');
@@ -31,13 +32,13 @@ export const linkHost = (p: Project) => {
     return p.link;
   }
 };
-export const nextProject = (slug: string) => {
-  const i = projects.findIndex((p) => p.slug === slug);
-  return projects[(i + 1) % projects.length];
+export const nextProject = (list: Project[], slug: string) => {
+  const i = list.findIndex((p) => p.slug === slug);
+  return list[(i + 1) % list.length];
 };
 
 /** The `count` projects after `slug`, wrapping around (for "more projects"). */
-export const moreProjects = (slug: string, count = 2) => {
-  const i = projects.findIndex((p) => p.slug === slug);
-  return Array.from({ length: Math.min(count, projects.length - 1) }, (_, k) => projects[(i + 1 + k) % projects.length]);
+export const moreProjects = (list: Project[], slug: string, count = 2) => {
+  const i = list.findIndex((p) => p.slug === slug);
+  return Array.from({ length: Math.min(count, list.length - 1) }, (_, k) => list[(i + 1 + k) % list.length]);
 };

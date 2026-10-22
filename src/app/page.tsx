@@ -1,9 +1,10 @@
 import { Footer } from '@/components/Footer';
 import { ProjectCard } from '@/components/ProjectCard';
-import { projects } from '@/data/projects';
 import { site } from '@/data/site';
+import { getProjects } from '@/lib/projects-store';
 
-export default function Home() {
+export default async function Home() {
+  const projects = await getProjects();
   return (
     <>
       <section className="hero">

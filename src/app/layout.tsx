@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './tailwind.css';
 import './globals.css';
+import { ChromeGate } from '@/components/ChromeGate';
 import { Nav } from '@/components/Nav';
 import { SmoothScroll } from '@/components/SmoothScroll';
 import { Wordmark } from '@/components/Wordmark';
@@ -36,9 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/SuisseIntl-Medium.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
-        <SmoothScroll />
-        <Nav />
-        <Wordmark />
+        <ChromeGate>
+          <SmoothScroll />
+          <Nav />
+          <Wordmark />
+        </ChromeGate>
         <main>{children}</main>
       </body>
     </html>
