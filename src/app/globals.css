@@ -526,39 +526,21 @@ html[data-theme='dark'] .theme-btn__moon {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.pp-hero {
-  /* same width, corners and proportions as the gallery images */
-  position: relative;
-  width: min(1325px, calc(100% - 2 * var(--edge)));
-  margin: var(--nav-h) auto clamp(16px, 2.4vw, 32px);
-  border-radius: 20px;
-  overflow: hidden;
-  background: var(--chip);
-  isolation: isolate;
+.pp-title {
+  padding: calc(var(--nav-h) + clamp(40px, 6vw, 96px)) clamp(24px, 7.8vw, 150px) 0;
 }
-.pp-hero .pp-shot {
-  border-radius: 0;
-}
-.pp-hero__shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 42%);
-}
-.pp-hero__title {
-  position: absolute;
-  left: clamp(20px, 3vw, 44px);
-  bottom: clamp(20px, 3vw, 44px);
-  font-size: clamp(28px, 3.4vw, 60px);
+.pp-title h1 {
+  font-size: clamp(34px, 3.4vw, 60px);
   line-height: 1;
   letter-spacing: -0.035em;
   font-weight: 500;
-  color: #fff;
+  color: var(--black);
 }
 .pp-intro {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(40px, 6vw, 120px);
-  padding: clamp(80px, 9vw, 160px) clamp(24px, 7.8vw, 150px) clamp(72px, 8vw, 140px);
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 7.8vw, 150px) clamp(48px, 6vw, 96px);
 }
 @media (max-width: 899px) {
   .pp-intro {

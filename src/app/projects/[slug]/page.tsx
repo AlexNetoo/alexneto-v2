@@ -40,8 +40,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const p = projects.find((x) => x.slug === slug);
   if (!p) notFound();
 
-  const hero = p.gallery[0] ?? p.cover;
-  const rest = p.gallery.slice(1);
+  // the cover (first image) now sits below the details, as the first image of the gallery
+  const shots = p.gallery.length ? p.gallery : [p.cover];
   const more = moreProjects(projects, slug, 2);
   const details: [string, string | React.ReactNode][] = [
     ['Project', p.title],
@@ -62,10 +62,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   return (
     <>
-      <section className="pp-hero">
-        <Shot img={hero} alt="" priority />
-        <div className="pp-hero__shade" />
-        <h1 className="pp-hero__title">{p.title}</h1>
+      <section className="pp-title">
+        <h1>{p.title}</h1>
       </section>
 
       <section className="pp-intro">
@@ -86,9 +84,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </Reveal>
       </section>
 
-      {rest.length > 0 && (
+      {shots.length > 0 && (
         <section className="pp-gallery" aria-label={`${p.title} screens`}>
-          {rest.map((img, i) => (
+          {shots.map((img, i) => (
             <Reveal key={img.src}>
               <Shot img={img} alt={`${p.title} screen`} priority={i === 0} />
             </Reveal>
