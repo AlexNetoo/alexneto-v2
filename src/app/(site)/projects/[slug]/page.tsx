@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Frame, tint } from '@/components/Frame';
+import { FullShot } from '@/components/FullShot';
 import { categoryOf, linkHost, metaLine, nextProject, prevProject } from '@/data/projects';
 import { site } from '@/data/site';
 import { getProjects } from '@/lib/projects-store';
@@ -26,7 +26,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   if (!p) notFound();
 
   const shots = p.gallery.length ? p.gallery : [p.cover];
-  const [lead, ...rest] = shots;
   const prev = prevProject(projects, slug);
   const next = nextProject(projects, slug);
 
@@ -47,11 +46,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   ];
 
   return (
-    <article className="project" style={{ ['--bg-img' as string]: `url("${tint(lead.src)}")` } as React.CSSProperties}>
-      <div className="project__band" aria-hidden="true">
-        <span />
-      </div>
-
+    <article className="project">
       <header className="project__head">
         <Link href="/projects" className="project__back rise">
           ← projects
@@ -78,13 +73,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
       </header>
 
       <div className="project__body">
-        <div className="rise" style={{ ['--d' as string]: '0.25s' }}>
-          <Frame img={lead} alt={`${p.title} cover`} priority />
-        </div>
-        {rest.map((img) => (
-          <div key={img.src} className="project__shot">
-            <Frame img={img} alt={`${p.title} screen`} />
-          </div>
+        {shots.map((img, i) => (
+          <FullShot key={img.src} img={img} alt={i === 0 ? `${p.title} cover` : `${p.title} screen`} priority={i === 0} />
         ))}
       </div>
 

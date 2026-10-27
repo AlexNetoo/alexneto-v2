@@ -381,30 +381,15 @@
   position: relative;
   padding-bottom: 120px;
 }
-.project__band {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 520px;
-  overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 40%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 40%, transparent 92%);
-}
-.project__band span {
-  position: absolute;
-  inset: -60px;
-  background-image: var(--bg-img);
-  background-size: cover;
-  background-position: center top;
-  filter: blur(50px) saturate(1.7) brightness(0.5);
-  opacity: 0.75;
-}
 .project__head {
   position: relative;
-  padding: 220px var(--pad) 0;
+  padding: 200px 24px 0;
+  max-width: 760px;
+  margin: 0 auto;
   display: grid;
+  justify-items: center;
   gap: 8px;
-  max-width: calc(896px + 2 * var(--pad));
+  text-align: center;
 }
 .project__back {
   font-family: var(--mono);
@@ -412,7 +397,6 @@
   color: var(--fg-3);
   transition: color 0.2s;
   margin-bottom: 36px;
-  width: fit-content;
 }
 .project__back:hover {
   color: var(--fg);
@@ -430,15 +414,16 @@
 }
 .project__desc {
   margin-top: 28px;
-  max-width: 62ch;
+  max-width: 56ch;
   font-size: 16px;
   line-height: 24px;
   color: var(--fg-2);
 }
 .project__facts {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 14px 44px;
   font-family: var(--mono);
   font-size: 12px;
@@ -455,69 +440,31 @@
   text-underline-offset: 3px;
   text-decoration-color: var(--fg-3);
 }
+/* the images: the full width of the screen, one after another, nothing around them */
 .project__body {
-  position: relative;
-  padding: 64px var(--pad) 0;
-  max-width: calc(896px + 2 * var(--pad));
-  display: grid;
-  gap: 20px; /* one long vertical scroll of screens */
+  margin-top: 80px;
 }
-
-/* a screenshot on its own tonal stage: a blurred, saturated copy of the image behind it */
-.frame {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--surface);
-  isolation: isolate;
-}
-.frame__bg {
-  position: absolute;
-  inset: -30px;
-  z-index: -1;
-  background-image: var(--bg-img);
-  background-size: cover;
-  background-position: center;
-  filter: blur(30px) saturate(1.5) brightness(0.6);
-}
-.frame__shot {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 6.5%;
-}
-.frame__shot img {
-  width: auto;
+.fullshot {
+  display: block;
+  width: 100%;
   height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 6px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
 }
 
 .pager {
   position: relative;
-  padding: 120px var(--pad) 0;
-  max-width: calc(896px + 2 * var(--pad));
+  padding: 120px 24px 0;
+  max-width: 760px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  text-align: center;
 }
 .pager a {
   display: grid;
   gap: 6px;
+  justify-items: center;
   align-content: start;
-}
-.pager a:last-child {
-  text-align: right;
-  justify-items: end;
-}
-.pager__dir {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--fg-3);
 }
 .pager__title {
   font-size: 14px;
@@ -533,20 +480,15 @@
   color: var(--fg-3);
 }
 .pager__desc {
-  max-width: 34ch;
+  max-width: 30ch;
   font-size: 13px;
   line-height: 1.5;
   color: var(--fg-2);
 }
-
 @media (max-width: 699px) {
   .pager {
     grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-  }
-  .pager a:last-child {
-    text-align: left;
-    justify-items: start;
+    gap: 44px;
   }
 }
 @media (max-width: 899px) {
@@ -554,12 +496,14 @@
     padding-top: 150px;
   }
   .project__body {
-    gap: 14px;
-    padding-top: 48px;
+    margin-top: 56px;
   }
-  .frame {
-    aspect-ratio: 4 / 3;
-  }
+}
+
+.pager__dir {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-3);
 }
 
 /* ---------- about ---------- */
