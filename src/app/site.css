@@ -100,7 +100,77 @@
   font-weight: 600;
 }
 
-/* ---------- home: the pond ---------- */
+/* ---------- sound switch ---------- */
+.sound {
+  all: unset;
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 55;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 11px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: rgba(26, 25, 23, 0.7);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.sound:hover,
+.sound:focus-visible {
+  color: var(--fg);
+  border-color: var(--fg-3);
+}
+.sound__bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+}
+.sound__bars i {
+  display: block;
+  width: 2px;
+  height: 3px;
+  background: currentColor;
+}
+.sound.is-on {
+  color: var(--fg);
+}
+.sound.is-on .sound__bars i {
+  animation: eq 0.49s ease-in-out infinite alternate;
+}
+.sound.is-on .sound__bars i:nth-child(2) {
+  animation-delay: -0.16s;
+  animation-duration: 0.61s;
+}
+.sound.is-on .sound__bars i:nth-child(3) {
+  animation-delay: -0.3s;
+  animation-duration: 0.37s;
+}
+@keyframes eq {
+  to {
+    height: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sound.is-on .sound__bars i {
+    animation: none;
+    height: 8px;
+  }
+}
+@media (max-width: 699px) {
+  .sound {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+/* ---------- home: the records ---------- */
 .pond {
   position: relative;
   height: 100vh;

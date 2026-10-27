@@ -13,13 +13,9 @@ export default async function Home() {
       <LocalClock />
       <div className="pond__text">
         <div className="pond__tag">
-          <Typed lines={['trusted by ambitious founders', 'and leading brands since 2014']} />
+          <Typed lines={['Alex Neto, product designer,', 'with more than 10 years of experience']} />
         </div>
         <div className="pond__intro rise" style={{ ['--d' as string]: '0.4s' }}>
-          <p>Olá, I’m Alex.</p>
-          <p>
-            {site.role} based in {site.location}.
-          </p>
           <p>I drive real business results by designing digital products and websites that are easy to use and scale.</p>
           <p style={{ color: 'var(--fg-2)' }}>
             Currently {now.role.toLowerCase()}, independent. Before that, Namebase, Namecheap, Defined.ai and Porto Design Factory.

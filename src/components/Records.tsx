@@ -377,6 +377,10 @@ export function Records({ items }: { items: Item[] }) {
     const onLeave = () => {
       ptr.on = false;
     };
+    // when the music is on, every kick nudges the records' spin
+    const onKick = () => {
+      recs.forEach((a, i) => (a.spin += 0.55 * (i % 2 ? 1 : -1)));
+    };
     const onDown = (e: PointerEvent) => {
       const p = local(e);
       const idx = hit(p.x, p.y, e.pointerType === 'touch' ? 2.5 : 1);
@@ -405,12 +409,14 @@ export function Records({ items }: { items: Item[] }) {
     cv.addEventListener('pointermove', onMove);
     cv.addEventListener('pointerleave', onLeave);
     cv.addEventListener('pointerdown', onDown);
+    window.addEventListener('site:kick', onKick);
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       cv.removeEventListener('pointermove', onMove);
       cv.removeEventListener('pointerleave', onLeave);
       cv.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('site:kick', onKick);
     };
   }, [items, router]);
 
