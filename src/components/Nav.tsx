@@ -1,30 +1,31 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { site, whatsappUrl } from '@/data/site';
-import { GooeyNavbar, type NavItem } from './gooey-navbar';
-import { ThemeIcons, useThemeToggle } from './ThemeToggle';
+import { whatsappUrl } from '@/data/site';
 
-/**
- * Fixed top bar from the Figma file: avatar on the left, then About, Contact and the dark mode switch as one
- * grey gooey strip (useLayouts gooey navbar): hover a pill and its neighbours slide apart, joined by a liquid neck.
- */
+const ITEMS = [
+  { label: 'home', href: '/' },
+  { label: 'projects', href: '/projects' },
+  { label: 'about', href: '/about' },
+] as const;
+
+/** Small centred monospace nav. The current page is bold white, the rest are quiet. */
 export function Nav() {
-  const pathname = usePathname();
-  const { theme, toggle } = useThemeToggle();
-  const items: NavItem[] = [
-    { label: 'About', link: '/about', width: 68 },
-    { label: 'Contact', link: whatsappUrl, width: 80 },
-    { label: 'Dark mode', content: <ThemeIcons />, ariaLabel: theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode', onPress: toggle, width: 40 },
-  ];
+  const path = usePathname();
+  const current = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
   return (
     <header className="nav">
-      <Link href="/" className="avatar" aria-label={`${site.name}, home`}>
-        <Image src="/avatar.png" alt="" width={80} height={80} priority />
-      </Link>
-      <GooeyNavbar items={items} activeIndex={pathname === '/about' ? 0 : -1} defaultActiveIndex={-1} />
+      <nav aria-label="Primary" style={{ display: 'contents' }}>
+        {ITEMS.map((i) => (
+          <Link key={i.href} href={i.href} aria-current={current(i.href) ? 'page' : undefined}>
+            {i.label}
+          </Link>
+        ))}
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+          contact ↗
+        </a>
+      </nav>
     </header>
   );
 }

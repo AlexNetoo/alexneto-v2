@@ -39,6 +39,12 @@ export const nextProject = (list: Project[], slug: string) => {
   return list[(i + 1) % list.length];
 };
 
+/** The project before `slug`, wrapping around. */
+export const prevProject = (list: Project[], slug: string) => {
+  const i = list.findIndex((p) => p.slug === slug);
+  return list[(i - 1 + list.length) % list.length];
+};
+
 /** The `count` projects after `slug`, wrapping around (for "more projects"). */
 export const moreProjects = (list: Project[], slug: string, count = 2) => {
   const i = list.findIndex((p) => p.slug === slug);
