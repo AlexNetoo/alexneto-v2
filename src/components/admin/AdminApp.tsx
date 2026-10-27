@@ -251,8 +251,8 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
 
   const featuredCount = projects.filter((p) => p.featured).length;
   const tabNames = { projects: 'Projects', analytics: 'Analytics' } as const;
-  // the landing page cards are 565 x 748 (portrait): a cover within 2% of that ratio is shown uncropped
-  const coverOk = form.cover && Math.abs(form.cover.w / form.cover.h / (565 / 748) - 1) < 0.02;
+  // the cards on the projects page are 3:2 (landscape): a cover within 2% of that ratio is shown uncropped
+  const coverOk = form.cover && Math.abs(form.cover.w / form.cover.h / (3 / 2) - 1) < 0.02;
 
   return (
     <div className="adm-page">
@@ -330,7 +330,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
 
                   <div>
                     <Label>Cover Image *</Label>
-                    <Hint>Ideal: portrait 565:748, like the cards on the landing page (e.g. 1130×1496) · Max 10MB · JPG, PNG, GIF, WebP</Hint>
+                    <Hint>Upload 1800 × 1200 px (3:2 landscape), the card on the projects page (shown up to 880 px wide, so this stays sharp on retina screens). Smaller is fine as long as it is 3:2, e.g. 1200 × 800 · Max 10MB · JPG, PNG, GIF, WebP</Hint>
                     {form.cover ? (
                       <div className="adm-cover">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -339,7 +339,7 @@ export function AdminApp({ initial, storageReady }: { initial: Project[]; storag
                           <Hint>
                             {form.cover.w}×{form.cover.h}
                             {form.cover.file ? ' · will upload on save' : ''}
-                            {coverOk ? ' · matches the landing page cards ✓' : ' · not 565:748, it will be cropped to fit the landing page cards'}
+                            {coverOk ? ' · 3:2, matches the projects page cards ✓' : ' · not 3:2 (1800 × 1200), it will be cropped to fit the projects page cards'}
                           </Hint>
                           <Button type="button" variant="outline" size="sm" onClick={() => set('cover', null)}>
                             Remove

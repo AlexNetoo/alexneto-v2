@@ -33,7 +33,7 @@ export function ProjectRail({ projects }: { projects: Project[] }) {
   return (
     <div ref={rail} className="rail" onKeyDown={onKey}>
       {projects.map((p, i) => {
-        const img = p.gallery[0] ?? p.cover;
+        const img = p.cover;
         return (
           <Link key={p.slug} href={`/projects/${p.slug}`} className="pcard rise" style={{ ['--d' as string]: `${0.1 + i * 0.07}s` }}>
             <div className="pcard__media">
