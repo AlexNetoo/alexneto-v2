@@ -31,6 +31,7 @@ export function Records({ items }: { items: Item[] }) {
     const ctx = cv.getContext('2d');
     if (!ctx) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sect = box.parentElement;
 
     // offscreen raster: 2 pixels per cell
     const ras = document.createElement('canvas');
@@ -54,6 +55,8 @@ export function Records({ items }: { items: Item[] }) {
       baseSpin: number;
       label: 'blue' | 'amber' | 'cream';
       seed: number;
+      born: number; // when it drops in (seconds after load)
+      app: number; // 0..1, how far it has dropped in
     };
     type Ripple = { x: number; y: number; r: number; age: number };
 
@@ -69,6 +72,9 @@ export function Records({ items }: { items: Item[] }) {
     let trailT = new Uint8Array(0); // tone: 0..7 neutral levels, 8 blue, 9 amber
     let jitter = new Float32Array(0);
     const ptr = { x: -999, y: -999, on: false };
+    const par = { x: 0, y: 0 }; // eased parallax, -1..1
+    let shove = 0; // scroll / drag energy that also tilts the whole field, decays
+    let drag: { x: number; y: number } | null = null;
     let hovered = -1;
     let raf = 0;
     let last = 0;
@@ -96,6 +102,8 @@ export function Records({ items }: { items: Item[] }) {
           baseSpin: (1.1 + hash(seed * 6.1) * 0.8) * (i % 2 ? 1 : -1),
           label: LABELS[i % LABELS.length],
           seed,
+          born: reduce ? -10 : 0.25 + i * 0.14,
+          app: reduce ? 1 : 0,
         };
       });
       recs.forEach((r) => (r.spin = r.baseSpin));
@@ -129,6 +137,20 @@ export function Records({ items }: { items: Item[] }) {
       ripples = ripples.filter((rp) => rp.age < 1.6);
 
       recs.forEach((a, idx) => {
+        a.app = Math.min(1, Math.max(0, (time - a.born) / 1.2));
+        // records are repelled a little by the cursor, like objects in water
+        if (ptr.on && hovered !== idx && a.app > 0.6) {
+          const dx = a.x - ptr.x / CELL;
+          const dy = a.y - ptr.y / CELL;
+          const d = Math.hypot(dx, dy);
+          const reach = a.r + 7;
+          if (d > 0.01 && d < reach) {
+            const f = (1 - d / reach) * 22 * dt;
+            a.vx += (dx / d) * f;
+            a.vy += (dy / d) * f;
+            a.spin += f * 0.5 * (idx % 2 ? 1 : -1);
+          }
+        }
         // ripples shove records outward
         for (const rp of ripples) {
           const dx = a.x - rp.x;
@@ -172,8 +194,9 @@ export function Records({ items }: { items: Item[] }) {
         const cruise = hovered === idx ? 0 : 2.2 + hash(a.seed * 2.2) * 2.2;
         const k = Math.min(1, dt * (hovered === idx ? 5 : 0.7));
         const want = sp + (cruise - sp) * k;
-        a.vx = (a.vx / sp) * want;
-        a.vy = (a.vy / sp) * want;
+        const capped = Math.min(want, 26);
+        a.vx = (a.vx / sp) * capped;
+        a.vy = (a.vy / sp) * capped;
         a.x += a.vx * dt;
         a.y += a.vy * dt;
         // walls: bounce
@@ -193,7 +216,8 @@ export function Records({ items }: { items: Item[] }) {
           a.vy = -Math.abs(a.vy);
         }
         // spin: relax to the record's own speed, spin up when hovered
-        const wantSpin = hovered === idx ? a.baseSpin * 2.6 : a.baseSpin;
+        const e = 1 - Math.pow(1 - a.app, 3);
+        const wantSpin = (hovered === idx ? a.baseSpin * 2.6 : a.baseSpin) * (1 + (1 - e) * 5);
         a.spin += (wantSpin - a.spin) * Math.min(1, dt * 1.6);
         a.ang += a.spin * dt;
       });
@@ -201,12 +225,15 @@ export function Records({ items }: { items: Item[] }) {
 
     const drawRecord = (c: CanvasRenderingContext2D, a: Rec) => {
       const S = 2; // raster pixels per cell
+      // drops in: grows from nothing while settling down into place
+      const e = 1 - Math.pow(1 - a.app, 3);
+      if (e < 0.02) return;
       const cx = a.x * S;
-      const cy = a.y * S;
-      const R = a.r * S;
+      const cy = (a.y - (1 - e) * 5) * S;
+      const R = a.r * S * e;
       const circle = (rad: number) => {
         c.beginPath();
-        c.arc(cx, cy, rad, 0, Math.PI * 2);
+        c.arc(cx, cy, Math.max(0, rad), 0, Math.PI * 2);
       };
       // disc
       c.fillStyle = 'rgb(74,72,68)';
@@ -231,7 +258,7 @@ export function Records({ items }: { items: Item[] }) {
         const s0 = a.ang + q * Math.PI;
         c.beginPath();
         c.moveTo(cx + Math.cos(s0) * label * 1.25, cy + Math.sin(s0) * label * 1.25);
-        c.arc(cx, cy, R - S * 1.1, s0 - 0.2, s0 + 0.2);
+        c.arc(cx, cy, Math.max(0, R - S * 1.1), s0 - 0.2, s0 + 0.2);
         c.lineTo(cx + Math.cos(s0 - 0.2) * label * 1.25, cy + Math.sin(s0 - 0.2) * label * 1.25);
         c.closePath();
         c.fill();
@@ -333,6 +360,7 @@ export function Records({ items }: { items: Item[] }) {
       let best = -1;
       let bd = Infinity;
       recs.forEach((a, idx) => {
+        if (a.app < 0.7) return;
         const d = Math.hypot(a.x - x, a.y - y);
         if (d < a.r + pad && d < bd) {
           bd = d;
@@ -362,7 +390,31 @@ export function Records({ items }: { items: Item[] }) {
       step(dt);
       render(dt);
       placeLabel();
+      // parallax: the records field and the text slide against each other, following the cursor (or a slow sway
+      // on touch screens), and lurch a little when you scroll or drag
+      shove *= Math.exp(-dt * 2.2);
+      const tx = ptr.on ? (ptr.x / W - 0.5) * 2 : Math.sin(time * 0.23) * 0.55;
+      const ty = (ptr.on ? (ptr.y / H - 0.5) * 2 : Math.cos(time * 0.17) * 0.45) + shove;
+      const k = 1 - Math.exp(-dt * 2.4);
+      par.x += (tx - par.x) * k;
+      par.y += (ty - par.y) * k;
+      sect?.style.setProperty('--px', par.x.toFixed(3));
+      sect?.style.setProperty('--py', par.y.toFixed(3));
     };
+
+    // scrolling (wheel) or dragging (touch) on the landing has nothing to scroll, so it moves the records instead
+    const nudge = (dx: number, dy: number, gain: number) => {
+      const cdx = Math.max(-140, Math.min(140, dx));
+      const cdy = Math.max(-140, Math.min(140, dy));
+      recs.forEach((a, i) => {
+        const depth = 0.5 + hash(a.seed * 7.7);
+        a.vx += cdx * gain * depth;
+        a.vy += cdy * gain * depth;
+        a.spin += (cdy + cdx) * gain * 1.6 * depth * (i % 2 ? 1 : -1);
+      });
+      shove = Math.max(-1.2, Math.min(1.2, shove + cdy * gain * 0.35));
+    };
+    const onWheel = (e: WheelEvent) => nudge(-e.deltaX, -e.deltaY, 0.012);
 
     const local = (e: PointerEvent) => {
       const b = cv.getBoundingClientRect();
@@ -370,12 +422,19 @@ export function Records({ items }: { items: Item[] }) {
     };
     const onMove = (e: PointerEvent) => {
       const p = local(e);
+      if (drag) {
+        nudge(p.x - drag.x, p.y - drag.y, 0.05);
+        drag = { x: p.x, y: p.y };
+      }
       ptr.x = p.x;
       ptr.y = p.y;
       ptr.on = e.pointerType !== 'touch';
     };
     const onLeave = () => {
       ptr.on = false;
+    };
+    const onUp = () => {
+      drag = null;
     };
     // when the music is on, every kick nudges the records' spin
     const onKick = () => {
@@ -389,6 +448,7 @@ export function Records({ items }: { items: Item[] }) {
         return;
       }
       ripples.push({ x: p.x / CELL, y: p.y / CELL, r: 1, age: 0 });
+      if (e.pointerType === 'touch') drag = { x: p.x, y: p.y };
     };
 
     const still = () => {
@@ -409,6 +469,9 @@ export function Records({ items }: { items: Item[] }) {
     cv.addEventListener('pointermove', onMove);
     cv.addEventListener('pointerleave', onLeave);
     cv.addEventListener('pointerdown', onDown);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    if (!reduce) window.addEventListener('wheel', onWheel, { passive: true });
     window.addEventListener('site:kick', onKick);
     return () => {
       cancelAnimationFrame(raf);
@@ -416,12 +479,15 @@ export function Records({ items }: { items: Item[] }) {
       cv.removeEventListener('pointermove', onMove);
       cv.removeEventListener('pointerleave', onLeave);
       cv.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      window.removeEventListener('wheel', onWheel);
       window.removeEventListener('site:kick', onKick);
     };
   }, [items, router]);
 
   return (
-    <div ref={wrap} style={{ position: 'absolute', inset: 0 }}>
+    <div ref={wrap} className="pond__field" style={{ position: 'absolute', inset: 0 }}>
       <canvas ref={canvas} aria-hidden="true" />
       <span ref={label} className="pond__label" aria-hidden="true" />
     </div>

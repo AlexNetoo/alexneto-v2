@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { FullShot } from '@/components/FullShot';
+import { Gallery } from '@/components/Gallery';
 import { Reveal } from '@/components/Reveal';
 import { ScrollProgress } from '@/components/ScrollProgress';
 import { categoryOf, linkHost, metaLine, nextProject, prevProject } from '@/data/projects';
@@ -75,13 +75,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </dl>
       </header>
 
-      <div className="project__body">
-        {shots.map((img, i) => (
-          <Reveal key={img.src} drift delay={i === 0 ? 0.15 : 0}>
-            <FullShot img={img} alt={i === 0 ? `${p.title} cover` : `${p.title} screen`} priority={i === 0} />
-          </Reveal>
-        ))}
-      </div>
+      <Gallery shots={shots} title={p.title} />
 
       <Reveal>
       <nav className="pager" aria-label="More projects">
