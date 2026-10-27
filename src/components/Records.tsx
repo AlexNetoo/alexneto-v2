@@ -129,7 +129,8 @@ export function Records({ items }: { items: Item[] }) {
     };
 
     const step = (dt: number) => {
-      time += dt;
+      // the clock (and so the records' drop-in) waits for the landing loader
+      if (!sect?.classList.contains('is-loading')) time += dt;
       for (const rp of ripples) {
         rp.age += dt;
         rp.r += dt * 34;
@@ -145,7 +146,7 @@ export function Records({ items }: { items: Item[] }) {
           const d = Math.hypot(dx, dy);
           const reach = a.r + 7;
           if (d > 0.01 && d < reach) {
-            const f = (1 - d / reach) * 22 * dt;
+            const f = (1 - d / reach) * 12 * dt;
             a.vx += (dx / d) * f;
             a.vy += (dy / d) * f;
             a.spin += f * 0.5 * (idx % 2 ? 1 : -1);

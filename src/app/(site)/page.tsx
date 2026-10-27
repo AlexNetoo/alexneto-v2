@@ -1,3 +1,4 @@
+import { Loader } from '@/components/Loader';
 import { LocalClock } from '@/components/LocalClock';
 import { Records } from '@/components/Records';
 import { Typed } from '@/components/Typed';
@@ -8,7 +9,11 @@ export default async function Home() {
   const projects = await getProjects();
   const now = experience[0];
   return (
-    <section className="pond" aria-label="Introduction">
+    <section className="pond is-loading" aria-label="Introduction">
+      <Loader />
+      <noscript>
+        <style>{'.pond__loader{display:none}.pond.is-loading .rise,.pond.is-loading .clock{animation-play-state:running!important}'}</style>
+      </noscript>
       <Records items={projects.map((p) => ({ slug: p.slug, title: p.title }))} />
       <LocalClock />
       <div className="pond__text">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { whenReady } from '@/lib/ready';
 
 /** Types its lines out one character at a time, with a blinking caret. Shows everything at once for reduced motion. */
 export function Typed({ lines, delay = 500, speed = 32 }: { lines: string[]; delay?: number; speed?: number }) {
@@ -14,14 +15,18 @@ export function Typed({ lines, delay = 500, speed = 32 }: { lines: string[]; del
     }
     let i = 0;
     let id = 0;
-    const start = window.setTimeout(() => {
-      id = window.setInterval(() => {
-        i += 1;
-        setN(i);
-        if (i >= total) window.clearInterval(id);
-      }, speed);
-    }, delay);
+    let start = 0;
+    const cancel = whenReady(() => {
+      start = window.setTimeout(() => {
+        id = window.setInterval(() => {
+          i += 1;
+          setN(i);
+          if (i >= total) window.clearInterval(id);
+        }, speed);
+      }, delay);
+    });
     return () => {
+      cancel();
       window.clearTimeout(start);
       window.clearInterval(id);
     };
