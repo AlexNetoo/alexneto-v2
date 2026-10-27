@@ -43,17 +43,17 @@ export default function AboutPage() {
       </header>
 
       <Reveal><section>
-        <h2 className="section__label">experience</h2>
+        <h2 className="section__label">Professional experience</h2>
         <Rows rows={experience} />
       </section></Reveal>
 
       <Reveal><section>
-        <h2 className="section__label">teaching</h2>
+        <h2 className="section__label">Teaching experience</h2>
         <Rows rows={teaching} />
       </section></Reveal>
 
       <Reveal><section>
-        <h2 className="section__label">focus</h2>
+        <h2 className="section__label">My focus areas</h2>
         <div className="rows">
           {services.map((s) => (
             <div key={s.title} className="row">

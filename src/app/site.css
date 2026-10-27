@@ -710,7 +710,7 @@
   object-fit: cover;
   filter: grayscale(1) contrast(1.05);
 }
-.section__label {
+.site .section__label {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--fg-3);
