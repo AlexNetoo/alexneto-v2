@@ -1,5 +1,5 @@
 import { LocalClock } from '@/components/LocalClock';
-import { Pond } from '@/components/Pond';
+import { Records } from '@/components/Records';
 import { Typed } from '@/components/Typed';
 import { experience, site, socials } from '@/data/site';
 import { getProjects } from '@/lib/projects-store';
@@ -9,7 +9,7 @@ export default async function Home() {
   const now = experience[0];
   return (
     <section className="pond" aria-label="Introduction">
-      <Pond items={projects.map((p) => ({ slug: p.slug, title: p.title }))} />
+      <Records items={projects.map((p) => ({ slug: p.slug, title: p.title }))} />
       <LocalClock />
       <div className="pond__text">
         <div className="pond__tag">

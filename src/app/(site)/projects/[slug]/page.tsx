@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Frame, tint } from '@/components/Frame';
-import { ShotCarousel } from '@/components/ShotCarousel';
 import { categoryOf, linkHost, metaLine, nextProject, prevProject } from '@/data/projects';
 import { site } from '@/data/site';
 import { getProjects } from '@/lib/projects-store';
@@ -82,7 +81,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         <div className="rise" style={{ ['--d' as string]: '0.25s' }}>
           <Frame img={lead} alt={`${p.title} cover`} priority />
         </div>
-        {rest.length > 0 && <ShotCarousel items={rest} label="screens" alt={`${p.title} screen`} />}
+        {rest.map((img) => (
+          <div key={img.src} className="project__shot">
+            <Frame img={img} alt={`${p.title} screen`} />
+          </div>
+        ))}
       </div>
 
       <nav className="pager" aria-label="More projects">
