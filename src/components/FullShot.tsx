@@ -7,6 +7,6 @@ export function FullShot({ img, alt, priority = false }: { img: Img; alt: string
     // eslint-disable-next-line @next/next/no-img-element
     <img className="fullshot" src={img.src} alt={alt} width={img.w} height={img.h} loading={priority ? 'eager' : 'lazy'} />
   ) : (
-    <Image className="fullshot" src={img.src} alt={alt} width={img.w} height={img.h} quality={82} sizes="(max-width: 899px) 90vw, 55vw" priority={priority} />
+    <Image className="fullshot" src={img.src} alt={alt} width={img.w} height={img.h} quality={82} sizes="(max-width: 899px) 94vw, 66vw" priority={priority} />
   );
 }

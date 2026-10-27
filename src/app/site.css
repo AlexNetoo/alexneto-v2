@@ -440,10 +440,10 @@
   text-underline-offset: 3px;
   text-decoration-color: var(--fg-3);
 }
-/* the images: the same width they had on their old tinted stage (87% of the text column), nothing around them */
+/* the images: 25% wider than their old tinted stage (87% x 1.25 of the text column), capped to the screen, nothing around them */
 .project__body {
   margin: 80px auto 0;
-  width: calc(min(896px, 100% - 2 * var(--pad)) * 0.87);
+  width: min(calc(min(896px, 100% - 2 * var(--pad)) * 1.0875), 100% - 32px);
   display: grid;
   gap: 20px;
 }
