@@ -493,13 +493,13 @@
 }
 .project__head {
   position: relative;
-  padding: 200px 24px 0;
-  max-width: 760px;
+  padding: 200px 0 0;
+  width: min(calc(min(896px, 100% - 2 * var(--pad)) * 1.0875), 100% - 32px);
   margin: 0 auto;
   display: grid;
-  justify-items: center;
+  justify-items: start;
   gap: 8px;
-  text-align: center;
+  text-align: left;
 }
 .project__back {
   font-family: var(--mono);
@@ -533,7 +533,7 @@
   margin-top: 32px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 14px 44px;
   font-family: var(--mono);
   font-size: 12px;
@@ -579,18 +579,18 @@
 
 .pager {
   position: relative;
-  padding: 120px 24px 0;
-  max-width: 760px;
+  padding: 120px 0 0;
+  width: min(calc(min(896px, 100% - 2 * var(--pad)) * 1.0875), 100% - 32px);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  text-align: center;
+  text-align: left;
 }
 .pager a {
   display: grid;
   gap: 6px;
-  justify-items: center;
+  justify-items: start;
   align-content: start;
 }
 .pager__title {
@@ -627,6 +627,12 @@
   .pager {
     grid-template-columns: minmax(0, 1fr);
     gap: 44px;
+  }
+  .project__head,
+  .pager {
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 @media (max-width: 899px) {
