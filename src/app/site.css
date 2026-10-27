@@ -440,14 +440,18 @@
   text-underline-offset: 3px;
   text-decoration-color: var(--fg-3);
 }
-/* the images: the full width of the screen, one after another, nothing around them */
+/* the images: the same width they had on their old tinted stage (87% of the text column), nothing around them */
 .project__body {
-  margin-top: 80px;
+  margin: 80px auto 0;
+  width: calc(min(896px, 100% - 2 * var(--pad)) * 0.87);
+  display: grid;
+  gap: 20px;
 }
 .fullshot {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 6px;
 }
 
 .pager {
@@ -497,6 +501,7 @@
   }
   .project__body {
     margin-top: 56px;
+    gap: 14px;
   }
 }
 
