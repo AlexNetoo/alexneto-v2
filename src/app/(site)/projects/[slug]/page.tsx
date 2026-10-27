@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FullShot } from '@/components/FullShot';
+import { Reveal } from '@/components/Reveal';
+import { ScrollProgress } from '@/components/ScrollProgress';
 import { categoryOf, linkHost, metaLine, nextProject, prevProject } from '@/data/projects';
 import { site } from '@/data/site';
 import { getProjects } from '@/lib/projects-store';
@@ -47,6 +49,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   return (
     <article className="project">
+      <ScrollProgress />
       <header className="project__head">
         <Link href="/projects" className="project__back rise">
           ← projects
@@ -74,10 +77,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
       <div className="project__body">
         {shots.map((img, i) => (
-          <FullShot key={img.src} img={img} alt={i === 0 ? `${p.title} cover` : `${p.title} screen`} priority={i === 0} />
+          <Reveal key={img.src} drift delay={i === 0 ? 0.15 : 0}>
+            <FullShot img={img} alt={i === 0 ? `${p.title} cover` : `${p.title} screen`} priority={i === 0} />
+          </Reveal>
         ))}
       </div>
 
+      <Reveal>
       <nav className="pager" aria-label="More projects">
         {[
           { p: prev, dir: '← previous' },
@@ -91,6 +97,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </Link>
         ))}
       </nav>
+      </Reveal>
     </article>
   );
 }

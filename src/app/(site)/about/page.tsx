@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { Reveal } from '@/components/Reveal';
 import { bio, experience, services, site, socials, teaching, whatsappUrl, type ResumeRow } from '@/data/site';
 
 export const metadata: Metadata = { title: 'About', description: site.description };
@@ -41,17 +42,17 @@ export default function AboutPage() {
         </div>
       </header>
 
-      <section className="rise" style={{ ['--d' as string]: '0.1s' }}>
+      <Reveal><section>
         <h2 className="section__label">experience</h2>
         <Rows rows={experience} />
-      </section>
+      </section></Reveal>
 
-      <section className="rise" style={{ ['--d' as string]: '0.15s' }}>
+      <Reveal><section>
         <h2 className="section__label">teaching</h2>
         <Rows rows={teaching} />
-      </section>
+      </section></Reveal>
 
-      <section className="rise" style={{ ['--d' as string]: '0.2s' }}>
+      <Reveal><section>
         <h2 className="section__label">focus</h2>
         <div className="rows">
           {services.map((s) => (
@@ -66,9 +67,9 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section></Reveal>
 
-      <section className="rise" style={{ ['--d' as string]: '0.25s' }}>
+      <Reveal><section>
         <h2 className="section__label">say hi</h2>
         <div className="contact-links">
           <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -81,7 +82,7 @@ export default function AboutPage() {
             </a>
           ))}
         </div>
-      </section>
+      </section></Reveal>
     </div>
   );
 }

@@ -9,6 +9,9 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Nav />
       <SoundToggle />
       <main>{children}</main>
+      <noscript>
+        <style>{'.site .reveal{opacity:1!important;transform:none!important}'}</style>
+      </noscript>
     </div>
   );
 }
