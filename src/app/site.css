@@ -344,14 +344,13 @@
   justify-items: center;
   gap: 22px;
   background: var(--bg);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transition: opacity 0.5s 0.2s var(--ease);
 }
 .pond__loader canvas {
   position: static;
   width: auto;
   height: auto;
   max-width: 92vw;
-  transition: transform 0.8s var(--ease);
 }
 .pond__loader p {
   display: flex;
@@ -369,7 +368,16 @@
   pointer-events: none;
 }
 .pond__loader.is-done canvas {
-  transform: scale(1.12) rotate(8deg);
+  transform: scale(5);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.5s 0.15s;
+}
+.seen .pond__loader {
+  display: none;
+}
+.seen .pond.is-loading .rise,
+.seen .pond.is-loading .clock {
+  animation-play-state: running;
 }
 @media (max-width: 899px) {
   .clock {

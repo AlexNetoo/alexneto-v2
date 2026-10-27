@@ -10,6 +10,8 @@ export default async function Home() {
   const now = experience[0];
   return (
     <section className="pond is-loading" aria-label="Introduction">
+      {/* the intro plays once per visit: this runs before the first paint, so a return to the landing never flashes it */}
+      <script dangerouslySetInnerHTML={{ __html: "try{if(sessionStorage.getItem('v2-intro'))document.documentElement.classList.add('seen')}catch(e){}" }} />
       <Loader />
       <noscript>
         <style>{'.pond__loader{display:none}.pond.is-loading .rise,.pond.is-loading .clock{animation-play-state:running!important}'}</style>
