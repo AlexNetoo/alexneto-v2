@@ -70,7 +70,7 @@ export default function AboutPage() {
       </section></Reveal>
 
       <Reveal><section>
-        <h2 className="section__label">say hi</h2>
+        <h2 className="section__label">Get in touch</h2>
         <div className="contact-links">
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
