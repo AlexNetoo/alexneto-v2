@@ -147,14 +147,17 @@
   z-index: 55;
   display: inline-flex;
   align-items: center;
+  box-sizing: border-box;
+  height: 32px;
   gap: 9px;
-  padding: 7px 11px;
+  padding: 0 12px;
   border-radius: 5px;
   border: 1px solid var(--line);
   background: rgba(26, 25, 23, 0.7);
   backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;
+  line-height: 1;
   color: var(--fg-2);
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
@@ -827,14 +830,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 32px;
   gap: 9px;
-  padding: 7px 11px;
+  padding: 0 12px;
   border-radius: 5px;
   border: 1px solid var(--line);
   background: rgba(26, 25, 23, 0.7);
   backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;
+  line-height: 1;
   color: var(--fg-2);
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
@@ -886,10 +891,10 @@
   position: absolute;
   top: 50%;
   z-index: 2;
-  width: 40px;
-  height: 40px;
-  margin-top: -20px;
-  font-size: 14px;
+  width: 32px;
+  padding: 0;
+  margin-top: -16px;
+  font-size: 13px;
 }
 .lightbox__nav--prev {
   left: 24px;
@@ -915,7 +920,7 @@
     margin-top: 0;
   }
   .lightbox__nav--prev {
-    left: calc(50% - 52px);
+    left: calc(50% - 44px);
   }
   .lightbox__nav--next {
     left: calc(50% + 12px);
