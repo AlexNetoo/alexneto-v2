@@ -6,8 +6,6 @@ import { site } from '@/data/site';
 export const metadata: Metadata = {
   title: { default: `${site.name} · ${site.role}`, template: `%s · ${site.name}` },
   description: site.description,
-  // a design test: keep it out of search results
-  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
