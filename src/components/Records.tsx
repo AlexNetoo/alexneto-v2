@@ -62,7 +62,9 @@ export function Records({ items }: { items: Item[] }) {
     };
     type Ripple = { x: number; y: number; r: number; age: number };
 
-    let CELL = 11;
+    let CELL = 6;
+    let K = 11 / 6; // how many of today's cells make one cell of the original 11px grid: sizes and speeds are scaled by this
+    let GAP = 0.9; // space between cells
     let cols = 0;
     let rows = 0;
     let W = 0;
@@ -87,12 +89,12 @@ export function Records({ items }: { items: Item[] }) {
 
     const makeRecords = () => {
       // records are sized in cells, so on a narrow grid (phones) they are scaled down to stay in proportion
-      const sc = Math.max(0.5, Math.min(1, cols / 110));
+      const sc = Math.max(0.5, Math.min(1, cols / K / 110));
       recs = items.map((item, i) => {
         const seed = i + 1;
         const ang = hash(seed * 9.3) * Math.PI * 2;
-        const sp = (2.2 + hash(seed * 2.2) * 2.4) * Math.max(0.6, sc);
-        const r = (6.2 + (i % 3) * 1.1 + hash(seed * 4.4) * 1.1) * sc;
+        const sp = (2.2 + hash(seed * 2.2) * 2.4) * Math.max(0.6, sc) * K;
+        const r = (6.2 + (i % 3) * 1.1 + hash(seed * 4.4) * 1.1) * sc * K;
         return {
           item,
           x: cols * (0.14 + hash(seed * 3.1) * 0.72),
@@ -118,7 +120,9 @@ export function Records({ items }: { items: Item[] }) {
       W = Math.max(1, Math.floor(b.width));
       H = Math.max(1, Math.floor(b.height));
       dpr = Math.min(2, window.devicePixelRatio || 1);
-      CELL = W < 700 ? 8 : 11;
+      CELL = W < 700 ? 5 : 6;
+      K = (W < 700 ? 8 : 11) / CELL;
+      GAP = W < 700 ? 0.8 : 0.9;
       cv.width = W * dpr;
       cv.height = H * dpr;
       cols = Math.ceil(W / CELL);
@@ -137,7 +141,7 @@ export function Records({ items }: { items: Item[] }) {
       if (!sect?.classList.contains('is-loading')) time += dt;
       for (const rp of ripples) {
         rp.age += dt;
-        rp.r += dt * 34;
+        rp.r += dt * 34 * K;
       }
       ripples = ripples.filter((rp) => rp.age < 1.6);
 
@@ -148,12 +152,12 @@ export function Records({ items }: { items: Item[] }) {
           const dx = a.x - ptr.x / CELL;
           const dy = a.y - ptr.y / CELL;
           const d = Math.hypot(dx, dy);
-          const reach = a.r + 7;
+          const reach = a.r + 7 * K;
           if (d > 0.01 && d < reach) {
-            const f = (1 - d / reach) * 12 * dt;
+            const f = (1 - d / reach) * 12 * dt * K;
             a.vx += (dx / d) * f;
             a.vy += (dy / d) * f;
-            a.spin += f * 0.5 * (idx % 2 ? 1 : -1);
+            a.spin += (f / K) * 0.5 * (idx % 2 ? 1 : -1);
           }
         }
         // ripples shove records outward
@@ -161,11 +165,11 @@ export function Records({ items }: { items: Item[] }) {
           const dx = a.x - rp.x;
           const dy = a.y - rp.y;
           const d = Math.hypot(dx, dy);
-          if (d > 0.01 && Math.abs(d - rp.r) < 4) {
-            const push = 26 * dt * (1 - rp.age / 1.6);
+          if (d > 0.01 && Math.abs(d - rp.r) < 4 * K) {
+            const push = 26 * dt * (1 - rp.age / 1.6) * K;
             a.vx += (dx / d) * push;
             a.vy += (dy / d) * push;
-            a.spin += push * 0.6 * (idx % 2 ? 1 : -1);
+            a.spin += (push / K) * 0.6 * (idx % 2 ? 1 : -1);
           }
         }
         // bump into each other (equal masses, soft)
@@ -189,23 +193,23 @@ export function Records({ items }: { items: Item[] }) {
               a.vy += ny * rv;
               b.vx -= nx * rv;
               b.vy -= ny * rv;
-              a.spin += rv * 0.15;
-              b.spin -= rv * 0.15;
+              a.spin += (rv / K) * 0.15;
+              b.spin -= (rv / K) * 0.15;
             }
           }
         }
         // drift: ease toward a gentle cruising speed, slower when hovered
         const sp = Math.hypot(a.vx, a.vy) || 0.001;
-        const cruise = hovered === idx ? 0 : 2.2 + hash(a.seed * 2.2) * 2.2;
+        const cruise = hovered === idx ? 0 : (2.2 + hash(a.seed * 2.2) * 2.2) * K;
         const k = Math.min(1, dt * (hovered === idx ? 5 : 0.7));
         const want = sp + (cruise - sp) * k;
-        const capped = Math.min(want, 26);
+        const capped = Math.min(want, 26 * K);
         a.vx = (a.vx / sp) * capped;
         a.vy = (a.vy / sp) * capped;
         a.x += a.vx * dt;
         a.y += a.vy * dt;
         // walls: bounce
-        const m = a.r + 1;
+        const m = a.r + K;
         if (a.x < m) {
           a.x = m;
           a.vx = Math.abs(a.vx);
@@ -213,8 +217,8 @@ export function Records({ items }: { items: Item[] }) {
           a.x = cols - m;
           a.vx = -Math.abs(a.vx);
         }
-        if (a.y < m + 4) {
-          a.y = m + 4;
+        if (a.y < m + 4 * K) {
+          a.y = m + 4 * K;
           a.vy = Math.abs(a.vy);
         } else if (a.y > rows - m) {
           a.y = rows - m;
@@ -233,7 +237,7 @@ export function Records({ items }: { items: Item[] }) {
       // drops in: grows from nothing while settling down into place
       const e = 1 - Math.pow(1 - a.app, 3);
       if (e < 0.02) return;
-      drawVinyl(c, a.x * S, (a.y - (1 - e) * 5) * S, a.r * S * e, S, a.ang, a.label, a.tint);
+      drawVinyl(c, a.x * S, (a.y - (1 - e) * 5 * K) * S, a.r * S * e, S, a.ang, a.label, a.tint);
     };
 
     const render = (dt: number) => {
@@ -292,7 +296,7 @@ export function Records({ items }: { items: Item[] }) {
           if (v < 0.05 || trailT[i] !== t) continue;
           const cx = i % cols;
           const cy = (i / cols) | 0;
-          const size = CELL - 1.3;
+          const size = CELL - GAP;
           const s = v > 0.45 ? size : size * (0.4 + (v / 0.45) * 0.6);
           const off = (CELL - s) / 2;
           ctx.globalAlpha = Math.min(1, v > 0.45 ? 0.6 + v * 0.4 : v * 1.4) * jitter[i];
@@ -325,7 +329,7 @@ export function Records({ items }: { items: Item[] }) {
       }
       const a = recs[hovered];
       tag.textContent = a.item.title;
-      tag.style.transform = `translate(${(a.x + a.r * 0.7) * CELL}px, ${(a.y - a.r - 1.5) * CELL - 14}px)`;
+      tag.style.transform = `translate(${(a.x + a.r * 0.7) * CELL}px, ${(a.y - a.r - 1.5 * K) * CELL - 14}px)`;
       tag.style.opacity = '1';
     };
 
@@ -333,7 +337,7 @@ export function Records({ items }: { items: Item[] }) {
       raf = requestAnimationFrame(frame);
       const dt = Math.min(0.05, (now - (last || now)) / 1000);
       last = now;
-      hovered = ptr.on ? hit(ptr.x, ptr.y, 1) : -1;
+      hovered = ptr.on ? hit(ptr.x, ptr.y, K) : -1;
       cv.style.cursor = hovered >= 0 ? 'pointer' : 'default';
       step(dt);
       render(dt);
@@ -356,8 +360,8 @@ export function Records({ items }: { items: Item[] }) {
       const cdy = Math.max(-140, Math.min(140, dy));
       recs.forEach((a, i) => {
         const depth = 0.5 + hash(a.seed * 7.7);
-        a.vx += cdx * gain * depth;
-        a.vy += cdy * gain * depth;
+        a.vx += cdx * gain * depth * K;
+        a.vy += cdy * gain * depth * K;
         a.spin += (cdy + cdx) * gain * 1.6 * depth * (i % 2 ? 1 : -1);
       });
       shove = Math.max(-1.2, Math.min(1.2, shove + cdy * gain * 0.35));
@@ -390,12 +394,12 @@ export function Records({ items }: { items: Item[] }) {
     };
     const onDown = (e: PointerEvent) => {
       const p = local(e);
-      const idx = hit(p.x, p.y, e.pointerType === 'touch' ? 2.5 : 1);
+      const idx = hit(p.x, p.y, (e.pointerType === 'touch' ? 2.5 : 1) * K);
       if (idx >= 0) {
         router.push(`/projects/${recs[idx].item.slug}`);
         return;
       }
-      ripples.push({ x: p.x / CELL, y: p.y / CELL, r: 1, age: 0 });
+      ripples.push({ x: p.x / CELL, y: p.y / CELL, r: K, age: 0 });
       if (e.pointerType === 'touch') drag = { x: p.x, y: p.y };
     };
 

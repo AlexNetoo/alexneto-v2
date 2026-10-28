@@ -43,10 +43,13 @@ export function Loader() {
     const rctx = ras.getContext('2d', { willReadFrequently: true });
     if (!ctx || !rctx) return;
 
-    const N = 36; // cells across
+    const small = window.innerWidth < 700;
+    const CELL = small ? 4 : 5;
+    const N = Math.round((36 * (small ? 7 : 9)) / CELL); // cells across (the same size on screen as the original 36 cells of 9px)
+    const k = N / 36; // sizes below are written for the original 36-cell grid
+    const GAP = 0.8;
     const S = 2; // raster pixels per cell
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const CELL = window.innerWidth < 700 ? 7 : 9;
     cv.width = N * CELL * dpr;
     cv.height = N * CELL * dpr;
     cv.style.width = `${N * CELL}px`;
@@ -63,9 +66,9 @@ export function Loader() {
 
     // the tonearm: pivots top right, swings from outside the record to a groove near the label
     const C = N / 2;
-    const R = 15;
-    const piv = { x: 34, y: 2 };
-    const tgt = { x: C + 2, y: C - 11.5 };
+    const R = 15 * k;
+    const piv = { x: 34 * k, y: 2 * k };
+    const tgt = { x: C + 2 * k, y: C - 11.5 * k };
     const armLen = Math.hypot(tgt.x - piv.x, tgt.y - piv.y);
     const armEnd = Math.atan2(tgt.y - piv.y, tgt.x - piv.x);
     const armStart = (84 * Math.PI) / 180;
@@ -102,25 +105,25 @@ export function Loader() {
         const ty = (piv.y + Math.sin(th) * armLen) * S;
         seg = [piv.x, piv.y, tx / S, ty / S];
         c.strokeStyle = 'rgb(70,68,64)';
-        c.lineWidth = S * 0.9;
+        c.lineWidth = S * 0.9 * k;
         c.lineCap = 'round';
         c.beginPath();
         c.moveTo(piv.x * S, piv.y * S);
         c.lineTo(tx, ty);
         c.stroke();
         c.fillStyle = 'rgb(70,68,64)';
-        circle(piv.x * S, piv.y * S, S * 1.5);
+        circle(piv.x * S, piv.y * S, S * 1.5 * k);
         c.fill();
         c.fillStyle = 'rgb(30,30,30)';
-        circle(tx, ty, S * 1.15);
+        circle(tx, ty, S * 1.15 * k);
         c.fill();
         // the needle lands: a ripple
         if (a >= 1) {
           const q = clamp01((p - 0.74) / 0.26);
           c.globalAlpha = (1 - q) * 0.8;
           c.strokeStyle = 'rgb(120,120,120)';
-          c.lineWidth = S * 0.9;
-          circle(tx, ty, S * (1 + q * 9));
+          c.lineWidth = S * 0.9 * k;
+          circle(tx, ty, S * k * (1 + q * 9));
           c.stroke();
           c.globalAlpha = 1;
         }
@@ -140,7 +143,7 @@ export function Loader() {
             const dx = x2 - x1;
             const dy = y2 - y1;
             const u = clamp01(((x + 0.5 - x1) * dx + (y + 0.5 - y1) * dy) / (dx * dx + dy * dy));
-            arm = Math.hypot(x + 0.5 - (x1 + u * dx), y + 0.5 - (y1 + u * dy)) < 1.6 || Math.hypot(x + 0.5 - x2, y + 0.5 - y2) < 3.2;
+            arm = Math.hypot(x + 0.5 - (x1 + u * dx), y + 0.5 - (y1 + u * dy)) < 1.6 * k || Math.hypot(x + 0.5 - x2, y + 0.5 - y2) < 3.2 * k;
           }
           if (!arm && hash(x, y) * 0.55 + Math.min(1, dist) * 0.45 > asm) continue;
           let al = 0;
@@ -158,7 +161,7 @@ export function Loader() {
           const cov = al / 4;
           if (cov < 0.05) continue;
           const fill = `rgb(${INK[toneOf(r / al, g / al, b / al)]})`;
-          const size = CELL - 1.3;
+          const size = CELL - GAP;
           const s = cov > 0.45 ? size : size * (0.4 + (cov / 0.45) * 0.6);
           ctx.globalAlpha = Math.min(1, cov > 0.45 ? 0.6 + cov * 0.4 : cov * 1.4);
           ctx.fillStyle = fill;

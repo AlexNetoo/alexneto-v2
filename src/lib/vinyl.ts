@@ -9,12 +9,12 @@
 /** What is printed on the label. It rotates with the record, so even a still frame shows which way it spins. */
 export type Label = 'half' | 'quarter' | 'ring' | 'solid';
 
-/** Ink for the cells on the warm paper page: eight greys (full ink to the faintest wash), then blue, amber and coral for the labels. */
-export const INK = ['26,25,23', '52,50,47', '78,76,72', '104,101,96', '132,129,123', '160,157,150', '188,185,178', '214,211,204', '58,92,220', '226,138,40', '226,84,68'];
+/** Soft ink for the cells on the warm paper page: eight warm greys (the darkest is a soft charcoal), then blue, peach and coral for the labels. */
+export const INK = ['104,101,96', '126,123,117', '146,143,136', '165,162,155', '183,180,173', '199,196,189', '213,210,203', '225,222,215', '124,158,240', '244,188,112', '238,132,122'];
 
 /** The colour printed on the label. */
 export type Tint = 'blue' | 'amber' | 'coral';
-const TINT: Record<Tint, string> = { blue: 'rgb(96,140,255)', amber: 'rgb(240,170,92)', coral: 'rgb(255,110,95)' };
+const TINT: Record<Tint, string> = { blue: 'rgb(96,140,255)', amber: 'rgb(240,170,92)', coral: 'rgb(255,110,95)' }; // drawn hues, only used to tell the label colours apart; INK has the soft versions
 
 /** The cell tone (an index into INK) for a drawn colour: a label colour if it is clearly one, else a grey where dark pixels get the most ink. */
 export const toneOf = (r: number, g: number, b: number) => {
