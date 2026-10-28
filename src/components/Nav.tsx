@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { whatsappUrl } from '@/data/site';
-import { ThemeDot } from './ThemeDot';
 
 const ITEMS = [
   { label: 'home', href: '/' },
@@ -11,7 +10,7 @@ const ITEMS = [
   { label: 'about', href: '/about' },
 ] as const;
 
-/** Small centred monospace nav. The current page is bold white, the rest are quiet. */
+/** Small centred monospace nav. The current page is bold ink, the rest are quiet. */
 export function Nav() {
   const path = usePathname();
   const current = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
@@ -26,7 +25,6 @@ export function Nav() {
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
           contact ↗
         </a>
-        <ThemeDot />
       </nav>
     </header>
   );

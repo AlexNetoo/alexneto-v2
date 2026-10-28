@@ -15,7 +15,7 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 };
 
-/** The site is dark by default; a light mode is toggled on <html data-site-theme> (see ThemeDot). The admin follows html[data-theme], which stays dark. */
+/** The public site is light only (see its layout); the admin follows html[data-theme], which stays dark. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>

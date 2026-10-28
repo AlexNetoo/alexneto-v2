@@ -2,18 +2,18 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { tones } from '@/lib/theme';
+import { INK, drawVinyl, toneOf, type Label } from '@/lib/vinyl';
 
 type Item = { slug: string; title: string };
 
 /**
- * The landing animation: vinyl records drifting on a dark floor, drawn in small square cells.
+ * The landing animation: vinyl records drifting on the paper page, drawn in small square cells.
  * Each record is one of the projects.
  *
- * How it works: the records are simulated and drawn as smooth vector shapes (disc, grooves, a spinning
- * sheen, a coloured label) into a tiny offscreen canvas at 2 pixels per cell. That is read back and
- * re-drawn as a grid of squares whose size and opacity follow the coverage and whose tone follows the
- * brightness, so grooves turn into rings of lighter and darker cells. Cells fade out slowly, which leaves
+ * How it works: the records are simulated and drawn as smooth vector shapes (a black disc, track gaps, a spinning
+ * sheen, a marked label) into a tiny offscreen canvas at 2 pixels per cell. That is read back and
+ * re-drawn as a grid of squares whose size and opacity follow the coverage and whose ink follows the
+ * darkness, so the track gaps turn into rings of lighter and darker cells. Cells fade out slowly, which leaves
  * a soft trail behind anything that moves. Hover a record to see which project it is (it spins up and
  * slows down), click it to open the project, click the floor to send out a ripple that knocks records
  * away, and watch them bump into each other.
@@ -54,7 +54,7 @@ export function Records({ items }: { items: Item[] }) {
       ang: number; // spin angle
       spin: number; // current spin speed (rad/s)
       baseSpin: number;
-      label: 'blue' | 'amber' | 'cream';
+      label: Label;
       seed: number;
       born: number; // when it drops in (seconds after load)
       app: number; // 0..1, how far it has dropped in
@@ -70,7 +70,7 @@ export function Records({ items }: { items: Item[] }) {
     let recs: Rec[] = [];
     let ripples: Ripple[] = [];
     let trailV = new Float32Array(0); // coverage, fades out
-    let trailT = new Uint8Array(0); // tone: 0..7 neutral levels, 8 blue, 9 amber
+    let trailT = new Uint8Array(0); // ink tone, 0 (darkest) .. 7
     let jitter = new Float32Array(0);
     const ptr = { x: -999, y: -999, on: false };
     const par = { x: 0, y: 0 }; // eased parallax, -1..1
@@ -81,7 +81,7 @@ export function Records({ items }: { items: Item[] }) {
     let last = 0;
     let time = 0;
 
-    const LABELS: Rec['label'][] = ['blue', 'amber', 'cream', 'blue', 'cream', 'amber', 'blue'];
+    const LABELS: Label[] = ['half', 'ring', 'quarter', 'solid', 'half', 'quarter', 'ring'];
 
     const makeRecords = () => {
       // records are sized in cells, so on a narrow grid (phones) they are scaled down to stay in proportion
@@ -230,57 +230,7 @@ export function Records({ items }: { items: Item[] }) {
       // drops in: grows from nothing while settling down into place
       const e = 1 - Math.pow(1 - a.app, 3);
       if (e < 0.02) return;
-      const cx = a.x * S;
-      const cy = (a.y - (1 - e) * 5) * S;
-      const R = a.r * S * e;
-      const circle = (rad: number) => {
-        c.beginPath();
-        c.arc(cx, cy, Math.max(0, rad), 0, Math.PI * 2);
-      };
-      // disc
-      c.fillStyle = 'rgb(74,72,68)';
-      circle(R);
-      c.fill();
-      // grooves: alternating lighter rings between the label and the rim
-      const label = R * 0.36;
-      for (let rad = label + S * 1.2, n = 0; rad < R - S * 1.6; rad += S * 1.0, n++) {
-        c.strokeStyle = n % 2 ? 'rgb(122,118,112)' : 'rgb(58,56,52)';
-        c.lineWidth = S * 0.55;
-        circle(rad);
-        c.stroke();
-      }
-      // bright rim
-      c.strokeStyle = 'rgb(214,208,200)';
-      c.lineWidth = S * 0.9;
-      circle(R - S * 0.45);
-      c.stroke();
-      // two opposite sheens that sweep round as the record spins
-      c.fillStyle = 'rgba(255,248,240,0.62)';
-      for (let q = 0; q < 2; q++) {
-        const s0 = a.ang + q * Math.PI;
-        c.beginPath();
-        c.moveTo(cx + Math.cos(s0) * label * 1.25, cy + Math.sin(s0) * label * 1.25);
-        c.arc(cx, cy, Math.max(0, R - S * 1.1), s0 - 0.2, s0 + 0.2);
-        c.lineTo(cx + Math.cos(s0 - 0.2) * label * 1.25, cy + Math.sin(s0 - 0.2) * label * 1.25);
-        c.closePath();
-        c.fill();
-      }
-      // label
-      c.fillStyle = a.label === 'blue' ? 'rgb(96,140,255)' : a.label === 'amber' ? 'rgb(240,170,92)' : 'rgb(232,224,212)';
-      circle(label);
-      c.fill();
-      // a notch on the label, so the spin reads even where the grooves are symmetric
-      c.fillStyle = 'rgb(26,24,22)';
-      c.beginPath();
-      c.arc(cx + Math.cos(a.ang) * label * 0.62, cy + Math.sin(a.ang) * label * 0.62, S * 0.55, 0, Math.PI * 2);
-      c.fill();
-      // spindle hole: cut right through
-      c.globalCompositeOperation = 'destination-out';
-      c.fillStyle = '#000';
-      c.beginPath();
-      c.arc(cx, cy, S * 0.7, 0, Math.PI * 2);
-      c.fill();
-      c.globalCompositeOperation = 'source-over';
+      drawVinyl(c, a.x * S, (a.y - (1 - e) * 5) * S, a.r * S * e, S, a.ang, a.label);
     };
 
     const render = (dt: number) => {
@@ -288,7 +238,7 @@ export function Records({ items }: { items: Item[] }) {
       rctx.clearRect(0, 0, ras.width, ras.height);
       for (const rp of ripples) {
         rctx.globalAlpha = Math.max(0, 0.4 * (1 - rp.age / 1.6));
-        rctx.strokeStyle = 'rgb(230,224,216)';
+        rctx.strokeStyle = 'rgb(120,120,120)';
         rctx.lineWidth = 1.1 * 2;
         rctx.beginPath();
         rctx.arc(rp.x * 2, rp.y * 2, rp.r * 2, 0, Math.PI * 2);
@@ -319,13 +269,8 @@ export function Records({ items }: { items: Item[] }) {
           const cov = al / 4;
           let v = trailV[i] * decay;
           if (cov > 0.04) {
-            const rr = r / al;
-            const gg = g / al;
-            const bb = b / al;
-            const lum = (rr + gg + bb) / 3;
-            let tone = Math.min(7, Math.max(0, Math.floor(lum / 31)));
-            if (bb - rr > 38) tone = 8;
-            else if (rr - bb > 70 && rr > 180) tone = 9;
+            const lum = (r + g + b) / (3 * al);
+            const tone = toneOf(lum);
             if (cov >= v) {
               trailV[i] = cov;
               trailT[i] = tone;
@@ -338,9 +283,8 @@ export function Records({ items }: { items: Item[] }) {
       // 3. cells onto the visible canvas, one pass per tone
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const palette = tones();
-      for (let t = 0; t < palette.length; t++) {
-        ctx.fillStyle = `rgb(${palette[t]})`;
+      for (let t = 0; t < INK.length; t++) {
+        ctx.fillStyle = `rgb(${INK[t]})`;
         for (let i = 0; i < trailV.length; i++) {
           const v = trailV[i];
           if (v < 0.05 || trailT[i] !== t) continue;

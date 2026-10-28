@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { tones } from '@/lib/theme';
+import { INK, drawVinyl, toneOf } from '@/lib/vinyl';
 
 const TOTAL = 1250; // ms from first frame to "done"
 const MAX = 2400; // never wait longer than this for fonts
@@ -88,44 +88,11 @@ export function Loader() {
       const cx = C * S;
       const cy = C * S;
       const RR = R * S;
-      const label = RR * 0.36;
       const circle = (x: number, y: number, rad: number) => {
         c.beginPath();
         c.arc(x, y, Math.max(0, rad), 0, Math.PI * 2);
       };
-      c.fillStyle = 'rgb(74,72,68)';
-      circle(cx, cy, RR);
-      c.fill();
-      for (let rad = label + S * 1.2, n = 0; rad < RR - S * 1.6; rad += S, n++) {
-        c.strokeStyle = n % 2 ? 'rgb(122,118,112)' : 'rgb(58,56,52)';
-        c.lineWidth = S * 0.55;
-        circle(cx, cy, rad);
-        c.stroke();
-      }
-      c.strokeStyle = 'rgb(214,208,200)';
-      c.lineWidth = S * 0.9;
-      circle(cx, cy, RR - S * 0.45);
-      c.stroke();
-      c.fillStyle = 'rgba(255,248,240,0.6)';
-      for (let q = 0; q < 2; q++) {
-        const s0 = ang + q * Math.PI;
-        c.beginPath();
-        c.moveTo(cx + Math.cos(s0) * label * 1.25, cy + Math.sin(s0) * label * 1.25);
-        c.arc(cx, cy, RR - S * 1.1, s0 - 0.2, s0 + 0.2);
-        c.lineTo(cx + Math.cos(s0 - 0.2) * label * 1.25, cy + Math.sin(s0 - 0.2) * label * 1.25);
-        c.closePath();
-        c.fill();
-      }
-      c.fillStyle = 'rgb(96,140,255)';
-      circle(cx, cy, label);
-      c.fill();
-      c.fillStyle = 'rgb(26,24,22)';
-      circle(cx + Math.cos(ang) * label * 0.62, cy + Math.sin(ang) * label * 0.62, S * 0.55);
-      c.fill();
-      c.globalCompositeOperation = 'destination-out';
-      circle(cx, cy, S * 0.7);
-      c.fill();
-      c.globalCompositeOperation = 'source-over';
+      drawVinyl(c, cx, cy, RR, S, ang, 'half');
 
       // tonearm, swinging in and dropping (overshoots a little, then settles into the groove)
       const a = clamp01((p - 0.28) / 0.46);
@@ -134,24 +101,24 @@ export function Loader() {
         const tx = (piv.x + Math.cos(th) * armLen) * S;
         const ty = (piv.y + Math.sin(th) * armLen) * S;
         seg = [piv.x, piv.y, tx / S, ty / S];
-        c.strokeStyle = 'rgb(232,226,218)';
+        c.strokeStyle = 'rgb(70,68,64)';
         c.lineWidth = S * 0.9;
         c.lineCap = 'round';
         c.beginPath();
         c.moveTo(piv.x * S, piv.y * S);
         c.lineTo(tx, ty);
         c.stroke();
-        c.fillStyle = 'rgb(232,226,218)';
+        c.fillStyle = 'rgb(70,68,64)';
         circle(piv.x * S, piv.y * S, S * 1.5);
         c.fill();
-        c.fillStyle = 'rgb(244,176,98)';
+        c.fillStyle = 'rgb(30,30,30)';
         circle(tx, ty, S * 1.15);
         c.fill();
         // the needle lands: a ripple
         if (a >= 1) {
           const q = clamp01((p - 0.74) / 0.26);
           c.globalAlpha = (1 - q) * 0.8;
-          c.strokeStyle = 'rgb(244,238,229)';
+          c.strokeStyle = 'rgb(120,120,120)';
           c.lineWidth = S * 0.9;
           circle(tx, ty, S * (1 + q * 9));
           c.stroke();
@@ -163,7 +130,6 @@ export function Loader() {
       const stride = ras.width * 4;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, N * CELL, N * CELL);
-      const palette = tones();
       for (let y = 0; y < N; y++) {
         for (let x = 0; x < N; x++) {
           // pixel dissolve: cells switch on in a random order that favours the middle
@@ -191,13 +157,7 @@ export function Loader() {
           }
           const cov = al / 4;
           if (cov < 0.05) continue;
-          const rr = r / al;
-          const gg = g / al;
-          const bb = b / al;
-          const lum = (rr + gg + bb) / 3;
-          let fill = `rgb(${palette[Math.min(7, Math.max(0, Math.floor(lum / 31)))]})`;
-          if (bb - rr > 38) fill = `rgb(${palette[8]})`;
-          else if (rr - bb > 70 && rr > 180) fill = `rgb(${palette[9]})`;
+          const fill = `rgb(${INK[toneOf((r + g + b) / (3 * al))]})`;
           const size = CELL - 1.3;
           const s = cov > 0.45 ? size : size * (0.4 + (cov / 0.45) * 0.6);
           ctx.globalAlpha = Math.min(1, cov > 0.45 ? 0.6 + cov * 0.4 : cov * 1.4);

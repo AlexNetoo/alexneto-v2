@@ -1,19 +1,19 @@
-/* The public site. Warm near-black, one soft white, a monospace for the small things.
+/* The public site. Warm paper, near-black ink, a monospace for the small things. Light only.
    Everything is scoped to .site so the admin (which has its own kit) is untouched. */
 
 .site {
-  --bg: #1a1917;
-  --fg: #fff7f0;
-  --bg-rgb: 26, 25, 23;
-  --fg-rgb: 255, 247, 240;
-  --fg-2: rgba(var(--fg-rgb), 0.5);
-  --fg-3: rgba(var(--fg-rgb), 0.3);
-  --line: rgba(var(--fg-rgb), 0.1);
+  --bg: #f3f0ea;
+  --fg: #1a1917;
+  --bg-rgb: 243, 240, 234;
+  --fg-rgb: 26, 25, 23;
+  --fg-2: rgba(var(--fg-rgb), 0.58);
+  --fg-3: rgba(var(--fg-rgb), 0.38);
+  --line: rgba(var(--fg-rgb), 0.12);
   --glass: rgba(var(--bg-rgb), 0.7);
-  --lightbox: #0c0c0b;
-  --surface: #242320;
-  --accent: #6b95ff;
-  color-scheme: dark;
+  --lightbox: #ece8e1;
+  --surface: #e8e4dc;
+  --accent: #3e63dd;
+  color-scheme: light;
   --sans: 'Suisse Intl', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: ui-monospace, 'SF Mono', 'Geist Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -24,23 +24,11 @@
   color: var(--fg);
   font-family: var(--sans);
 }
-/* light: a warm paper page with the same near-black ink. The choice is on <html data-site-theme>. */
-html[data-site-theme='light'] .site {
-  --bg: #f3f0ea;
-  --fg: #1a1917;
-  --bg-rgb: 243, 240, 234;
-  --fg-rgb: 26, 25, 23;
-  --fg-2: rgba(var(--fg-rgb), 0.58);
-  --fg-3: rgba(var(--fg-rgb), 0.38);
-  --line: rgba(var(--fg-rgb), 0.12);
-  --lightbox: #ece8e1;
-  --surface: #e8e4dc;
-  --accent: #3e63dd;
-  color-scheme: light;
-}
-html[data-site-theme='light']:has(.site),
-html[data-site-theme='light'] body:has(.site) {
+/* the page behind .site (overscroll, short pages) is paper too; the admin keeps its own */
+html:has(.site),
+body:has(.site) {
   background: #f3f0ea;
+  color-scheme: light;
 }
 @media (max-width: 1199px) {
   .site {
@@ -159,38 +147,6 @@ html[data-site-theme='light'] body:has(.site) {
 .nav a[aria-current='page'] {
   color: var(--fg);
   font-weight: 600;
-}
-
-/* the light/dark switch cross-fades (View Transitions where supported, plain colour transitions elsewhere) */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.55s;
-  animation-timing-function: ease;
-}
-html.theme-fading .site,
-html.theme-fading .site * {
-  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
-}
-
-/* ---------- theme dot (after "contact") ---------- */
-.theme-dot {
-  all: unset;
-  pointer-events: auto;
-  box-sizing: content-box;
-  width: 10px;
-  height: 10px;
-  margin-left: -20px;
-  padding: 8px;
-  background: var(--fg) content-box;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.25s var(--ease), opacity 0.2s;
-  opacity: 0.85;
-}
-.theme-dot:hover,
-.theme-dot:focus-visible {
-  opacity: 1;
-  transform: scale(1.25);
 }
 
 /* ---------- sound switch ---------- */
@@ -940,7 +896,7 @@ html.theme-fading .site * {
   max-height: calc(100vh - 144px);
   max-height: calc(100svh - 144px);
   border-radius: 4px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 30px 80px rgba(26, 25, 23, 0.18);
 }
 .lightbox__nav {
   position: absolute;
