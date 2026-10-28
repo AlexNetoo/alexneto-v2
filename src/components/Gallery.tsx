@@ -15,8 +15,10 @@ export function Gallery({ shots, title }: { shots: Img[]; title: string }) {
   const [open, setOpen] = useState<number | null>(null);
   const opener = useRef<HTMLElement | null>(null);
 
-  const show = (i: number, el: HTMLElement) => {
-    opener.current = el;
+  // only a keyboard user gets focus handed back to the image (and its focus ring); after a mouse click it would
+  // leave an outline around the image you just closed
+  const show = (i: number, el: HTMLElement, byKeyboard: boolean) => {
+    opener.current = byKeyboard ? el : null;
     setOpen(i);
   };
   const close = useCallback(() => {
@@ -29,7 +31,7 @@ export function Gallery({ shots, title }: { shots: Img[]; title: string }) {
       <div className="project__body">
         {shots.map((img, i) => (
           <Reveal key={img.src} drift delay={i === 0 ? 0.15 : 0}>
-            <button type="button" className="shot" onClick={(e) => show(i, e.currentTarget)} aria-label={`Open image ${i + 1} of ${shots.length} full screen`}>
+            <button type="button" className="shot" onClick={(e) => show(i, e.currentTarget, e.detail === 0)} aria-label={`Open image ${i + 1} of ${shots.length} full screen`}>
               <FullShot img={img} alt={i === 0 ? `${title} cover` : `${title} screen`} priority={i === 0} />
             </button>
           </Reveal>
