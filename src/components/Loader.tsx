@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { tones } from '@/lib/theme';
 
 const TOTAL = 1250; // ms from first frame to "done"
 const MAX = 2400; // never wait longer than this for fonts
@@ -52,7 +53,6 @@ export function Loader() {
     cv.style.height = `${N * CELL}px`;
     ras.width = N * S;
     ras.height = N * S;
-    const tones = ['70,68,64', '92,90,85', '118,115,109', '146,142,135', '174,169,161', '200,195,187', '224,218,209', '244,238,229'];
     const hash = (x: number, y: number) => {
       const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
       return s - Math.floor(s);
@@ -163,6 +163,7 @@ export function Loader() {
       const stride = ras.width * 4;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, N * CELL, N * CELL);
+      const palette = tones();
       for (let y = 0; y < N; y++) {
         for (let x = 0; x < N; x++) {
           // pixel dissolve: cells switch on in a random order that favours the middle
@@ -194,9 +195,9 @@ export function Loader() {
           const gg = g / al;
           const bb = b / al;
           const lum = (rr + gg + bb) / 3;
-          let fill = `rgb(${tones[Math.min(7, Math.max(0, Math.floor(lum / 31)))]})`;
-          if (bb - rr > 38) fill = 'rgb(107,149,255)';
-          else if (rr - bb > 70 && rr > 180) fill = 'rgb(244,176,98)';
+          let fill = `rgb(${palette[Math.min(7, Math.max(0, Math.floor(lum / 31)))]})`;
+          if (bb - rr > 38) fill = `rgb(${palette[8]})`;
+          else if (rr - bb > 70 && rr > 180) fill = `rgb(${palette[9]})`;
           const size = CELL - 1.3;
           const s = cov > 0.45 ? size : size * (0.4 + (cov / 0.45) * 0.6);
           ctx.globalAlpha = Math.min(1, cov > 0.45 ? 0.6 + cov * 0.4 : cov * 1.4);

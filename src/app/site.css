@@ -4,11 +4,16 @@
 .site {
   --bg: #1a1917;
   --fg: #fff7f0;
-  --fg-2: rgba(255, 247, 240, 0.5);
-  --fg-3: rgba(255, 247, 240, 0.3);
-  --line: rgba(255, 247, 240, 0.1);
+  --bg-rgb: 26, 25, 23;
+  --fg-rgb: 255, 247, 240;
+  --fg-2: rgba(var(--fg-rgb), 0.5);
+  --fg-3: rgba(var(--fg-rgb), 0.3);
+  --line: rgba(var(--fg-rgb), 0.1);
+  --glass: rgba(var(--bg-rgb), 0.7);
+  --lightbox: #0c0c0b;
   --surface: #242320;
   --accent: #6b95ff;
+  color-scheme: dark;
   --sans: 'Suisse Intl', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: ui-monospace, 'SF Mono', 'Geist Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -18,6 +23,24 @@
   background: var(--bg);
   color: var(--fg);
   font-family: var(--sans);
+}
+/* light: a warm paper page with the same near-black ink. The choice is on <html data-site-theme>. */
+html[data-site-theme='light'] .site {
+  --bg: #f3f0ea;
+  --fg: #1a1917;
+  --bg-rgb: 243, 240, 234;
+  --fg-rgb: 26, 25, 23;
+  --fg-2: rgba(var(--fg-rgb), 0.58);
+  --fg-3: rgba(var(--fg-rgb), 0.38);
+  --line: rgba(var(--fg-rgb), 0.12);
+  --lightbox: #ece8e1;
+  --surface: #e8e4dc;
+  --accent: #3e63dd;
+  color-scheme: light;
+}
+html[data-site-theme='light']:has(.site),
+html[data-site-theme='light'] body:has(.site) {
+  background: #f3f0ea;
 }
 @media (max-width: 1199px) {
   .site {
@@ -48,7 +71,7 @@
   list-style: none;
 }
 .site ::selection {
-  background: rgba(255, 247, 240, 0.18);
+  background: rgba(var(--fg-rgb), 0.18);
 }
 
 /* ---------- motion ---------- */
@@ -122,7 +145,7 @@
   gap: 28px;
   font-family: var(--mono);
   font-size: 13px;
-  background: linear-gradient(to bottom, var(--bg) 0%, rgba(26, 25, 23, 0.85) 45%, rgba(26, 25, 23, 0));
+  background: linear-gradient(to bottom, var(--bg) 0%, rgba(var(--bg-rgb), 0.85) 45%, rgba(var(--bg-rgb), 0));
   pointer-events: none;
 }
 .nav a {
@@ -136,6 +159,27 @@
 .nav a[aria-current='page'] {
   color: var(--fg);
   font-weight: 600;
+}
+
+/* ---------- theme dot (after "contact") ---------- */
+.theme-dot {
+  all: unset;
+  pointer-events: auto;
+  box-sizing: content-box;
+  width: 10px;
+  height: 10px;
+  margin-left: -20px;
+  padding: 8px;
+  background: var(--fg) content-box;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), opacity 0.2s;
+  opacity: 0.85;
+}
+.theme-dot:hover,
+.theme-dot:focus-visible {
+  opacity: 1;
+  transform: scale(1.25);
 }
 
 /* ---------- sound switch ---------- */
@@ -153,7 +197,7 @@
   padding: 0 12px;
   border-radius: 5px;
   border: 1px solid var(--line);
-  background: rgba(26, 25, 23, 0.7);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;
@@ -446,7 +490,7 @@
   bottom: 12px;
   padding: 4px 9px;
   border-radius: 4px;
-  background: rgba(26, 25, 23, 0.78);
+  background: rgba(var(--bg-rgb), 0.78);
   backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;
@@ -801,7 +845,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: #0c0c0b;
+  background: var(--lightbox);
   animation: lb-in 0.28s var(--ease) both;
 }
 @keyframes lb-in {
@@ -835,7 +879,7 @@
   padding: 0 12px;
   border-radius: 5px;
   border: 1px solid var(--line);
-  background: rgba(26, 25, 23, 0.7);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;

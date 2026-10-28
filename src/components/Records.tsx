@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { tones } from '@/lib/theme';
 
 type Item = { slug: string; title: string };
 
@@ -337,9 +338,9 @@ export function Records({ items }: { items: Item[] }) {
       // 3. cells onto the visible canvas, one pass per tone
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const tones = ['70,68,64', '92,90,85', '118,115,109', '146,142,135', '174,169,161', '200,195,187', '224,218,209', '244,238,229', '107,149,255', '244,176,98'];
-      for (let t = 0; t < tones.length; t++) {
-        ctx.fillStyle = `rgb(${tones[t]})`;
+      const palette = tones();
+      for (let t = 0; t < palette.length; t++) {
+        ctx.fillStyle = `rgb(${palette[t]})`;
         for (let i = 0; i < trailV.length; i++) {
           const v = trailV[i];
           if (v < 0.05 || trailT[i] !== t) continue;

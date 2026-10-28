@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { whatsappUrl } from '@/data/site';
+import { ThemeDot } from './ThemeDot';
 
 const ITEMS = [
   { label: 'home', href: '/' },
@@ -25,6 +26,7 @@ export function Nav() {
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
           contact ↗
         </a>
+        <ThemeDot />
       </nav>
     </header>
   );
