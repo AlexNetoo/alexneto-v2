@@ -12,8 +12,19 @@ export function ThemeDot() {
   const toggle = () => {
     const next = !isLight();
     const root = document.documentElement;
-    if (next) root.setAttribute('data-site-theme', 'light');
-    else root.removeAttribute('data-site-theme');
+    const apply = () => {
+      if (next) root.setAttribute('data-site-theme', 'light');
+      else root.removeAttribute('data-site-theme');
+    };
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still) apply();
+    else if (typeof document.startViewTransition === 'function') document.startViewTransition(apply); // cross-fades the whole page
+    else {
+      // older browsers: fade the colours instead
+      root.classList.add('theme-fading');
+      apply();
+      window.setTimeout(() => root.classList.remove('theme-fading'), 600);
+    }
     try {
       localStorage.setItem(THEME_KEY, next ? 'light' : 'dark');
     } catch {}
