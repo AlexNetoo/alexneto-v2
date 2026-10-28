@@ -16,6 +16,9 @@ export function Nav() {
   const current = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
   return (
     <header className="nav">
+      <a className="skip" href="#main">
+        skip to content
+      </a>
       <nav aria-label="Primary" style={{ display: 'contents' }}>
         {ITEMS.map((i) => (
           <Link key={i.href} href={i.href} aria-current={current(i.href) ? 'page' : undefined}>
@@ -23,7 +26,7 @@ export function Nav() {
           </Link>
         ))}
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          contact ↗
+          contact <span className="nav__arrow" aria-hidden="true">↗</span>
         </a>
       </nav>
     </header>

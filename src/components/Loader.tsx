@@ -157,7 +157,7 @@ export function Loader() {
           }
           const cov = al / 4;
           if (cov < 0.05) continue;
-          const fill = `rgb(${INK[toneOf((r + g + b) / (3 * al))]})`;
+          const fill = `rgb(${INK[toneOf(r / al, g / al, b / al)]})`;
           const size = CELL - 1.3;
           const s = cov > 0.45 ? size : size * (0.4 + (cov / 0.45) * 0.6);
           ctx.globalAlpha = Math.min(1, cov > 0.45 ? 0.6 + cov * 0.4 : cov * 1.4);

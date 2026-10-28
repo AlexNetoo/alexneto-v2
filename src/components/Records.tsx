@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { INK, drawVinyl, toneOf, type Label } from '@/lib/vinyl';
+import { INK, drawVinyl, toneOf, type Label, type Tint } from '@/lib/vinyl';
 
 type Item = { slug: string; title: string };
 
@@ -55,6 +55,7 @@ export function Records({ items }: { items: Item[] }) {
       spin: number; // current spin speed (rad/s)
       baseSpin: number;
       label: Label;
+      tint: Tint;
       seed: number;
       born: number; // when it drops in (seconds after load)
       app: number; // 0..1, how far it has dropped in
@@ -70,7 +71,7 @@ export function Records({ items }: { items: Item[] }) {
     let recs: Rec[] = [];
     let ripples: Ripple[] = [];
     let trailV = new Float32Array(0); // coverage, fades out
-    let trailT = new Uint8Array(0); // ink tone, 0 (darkest) .. 7
+    let trailT = new Uint8Array(0); // ink: 0 (darkest) .. 7 greys, 8 blue, 9 amber, 10 coral
     let jitter = new Float32Array(0);
     const ptr = { x: -999, y: -999, on: false };
     const par = { x: 0, y: 0 }; // eased parallax, -1..1
@@ -82,6 +83,7 @@ export function Records({ items }: { items: Item[] }) {
     let time = 0;
 
     const LABELS: Label[] = ['half', 'ring', 'quarter', 'solid', 'half', 'quarter', 'ring'];
+    const TINTS: Tint[] = ['blue', 'amber', 'coral', 'blue', 'coral', 'amber', 'blue'];
 
     const makeRecords = () => {
       // records are sized in cells, so on a narrow grid (phones) they are scaled down to stay in proportion
@@ -102,6 +104,7 @@ export function Records({ items }: { items: Item[] }) {
           spin: 0,
           baseSpin: (1.1 + hash(seed * 6.1) * 0.8) * (i % 2 ? 1 : -1),
           label: LABELS[i % LABELS.length],
+          tint: TINTS[i % TINTS.length],
           seed,
           born: reduce ? -10 : 0.25 + i * 0.14,
           app: reduce ? 1 : 0,
@@ -230,7 +233,7 @@ export function Records({ items }: { items: Item[] }) {
       // drops in: grows from nothing while settling down into place
       const e = 1 - Math.pow(1 - a.app, 3);
       if (e < 0.02) return;
-      drawVinyl(c, a.x * S, (a.y - (1 - e) * 5) * S, a.r * S * e, S, a.ang, a.label);
+      drawVinyl(c, a.x * S, (a.y - (1 - e) * 5) * S, a.r * S * e, S, a.ang, a.label, a.tint);
     };
 
     const render = (dt: number) => {
@@ -269,8 +272,7 @@ export function Records({ items }: { items: Item[] }) {
           const cov = al / 4;
           let v = trailV[i] * decay;
           if (cov > 0.04) {
-            const lum = (r + g + b) / (3 * al);
-            const tone = toneOf(lum);
+            const tone = toneOf(r / al, g / al, b / al);
             if (cov >= v) {
               trailV[i] = cov;
               trailT[i] = tone;
