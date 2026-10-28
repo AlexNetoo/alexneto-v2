@@ -269,7 +269,7 @@ body:has(.site) {
   pointer-events: none;
 }
 .pond__tag {
-  color: var(--fg-2);
+  color: var(--fg);
   min-height: 3.4em;
 }
 .caret {
@@ -278,7 +278,7 @@ body:has(.site) {
   height: 1.05em;
   margin-left: 2px;
   vertical-align: -0.18em;
-  background: var(--fg-2);
+  background: var(--fg);
   animation: blink 1.1s steps(1) infinite;
 }
 @keyframes blink {
@@ -315,14 +315,14 @@ body:has(.site) {
 .pond__links {
   display: flex;
   gap: 0;
-  color: var(--fg-2);
+  color: var(--fg);
 }
 .pond__links a {
   pointer-events: auto;
-  transition: color 0.2s;
+  transition: opacity 0.2s;
 }
 .pond__links a:hover {
-  color: var(--fg);
+  opacity: 0.55;
 }
 .pond__links span {
   padding: 0 8px;

@@ -24,7 +24,7 @@ export default async function Home() {
         </div>
         <div className="pond__intro rise" style={{ ['--d' as string]: '0.4s' }}>
           <p>I drive real business results by designing digital products and websites that are easy to use and scale.</p>
-          <p style={{ color: 'var(--fg-2)' }}>
+          <p>
             Currently a {now.role.toLowerCase()} as an independent contractor. Before that, Namebase, Namecheap, Defined.ai and Porto Design Factory.
           </p>
         </div>
