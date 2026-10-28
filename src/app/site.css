@@ -132,7 +132,7 @@ body:has(.site) {
   justify-content: center;
   gap: 8px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 12px;
   background: linear-gradient(to bottom, var(--bg) 0%, rgba(var(--bg-rgb), 0.85) 45%, rgba(var(--bg-rgb), 0));
   pointer-events: none;
 }
@@ -141,6 +141,9 @@ body:has(.site) {
   pointer-events: auto;
   padding: 10px 10px;
   border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
   color: var(--fg-2);
   transition: color 0.2s;
 }
@@ -173,6 +176,20 @@ body:has(.site) {
   outline: 1px solid var(--fg);
   outline-offset: -1px;
 }
+@media (max-width: 699px) {
+  .nav {
+    gap: 0;
+    font-size: 11px;
+  }
+  .nav a {
+    padding: 10px 7px;
+    letter-spacing: 0.04em;
+  }
+  .nav a::after {
+    left: 7px;
+    right: 7px;
+  }
+}
 .nav__arrow {
   display: inline-block;
   transition: transform 0.3s var(--ease);
@@ -181,7 +198,7 @@ body:has(.site) {
 .nav a:focus-visible .nav__arrow {
   transform: translate(2px, -2px);
 }
-.skip {
+.nav a.skip {
   position: fixed;
   top: 12px;
   left: 12px;
@@ -192,9 +209,14 @@ body:has(.site) {
   color: var(--bg);
   font-family: var(--mono);
   font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
   transform: translateY(-200%);
 }
-.skip:focus {
+.nav a.skip::after {
+  display: none;
+}
+.nav a.skip:focus {
   transform: none;
 }
 
