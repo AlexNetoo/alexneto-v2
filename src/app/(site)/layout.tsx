@@ -1,4 +1,5 @@
 import type { Viewport } from 'next';
+import { ClickRipple } from '@/components/ClickRipple';
 import { Nav } from '@/components/Nav';
 import { SoundToggle } from '@/components/SoundToggle';
 import '../site.css';
@@ -10,6 +11,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="site">
       <Nav />
+      <ClickRipple />
       <SoundToggle />
       <main id="main">{children}</main>
       <noscript>
