@@ -76,6 +76,8 @@ export function Records({ items }: { items: Item[] }) {
     let trailT = new Uint8Array(0); // ink: 0 (darkest) .. 7 greys, 8 blue, 9 amber, 10 coral
     let jitter = new Float32Array(0);
     const ptr = { x: -999, y: -999, on: false };
+    const keep = { on: false, x0: 0, y0: 0, x1: 0, y1: 0 }; // the intro text, in cells: records steer round it
+    let measured = 0;
     const par = { x: 0, y: 0 }; // eased parallax, -1..1
     let shove = 0; // scroll / drag energy that also tilts the whole field, decays
     let drag: { x: number; y: number } | null = null;
@@ -136,7 +138,30 @@ export function Records({ items }: { items: Item[] }) {
       makeRecords();
     };
 
+    // where the intro text sits, as one box in cells (the text is DOM, so it is re-measured now and then: it
+    // slides in on load, and the page can resize)
+    const measureText = () => {
+      const tag = sect?.querySelector('.pond__tag');
+      const intro = sect?.querySelector('.pond__intro');
+      const links = sect?.querySelector('.pond__links');
+      if (!tag || !intro || !links) {
+        keep.on = false;
+        return;
+      }
+      const b = cv.getBoundingClientRect();
+      const t = tag.getBoundingClientRect();
+      const i = intro.getBoundingClientRect();
+      const l = links.getBoundingClientRect();
+      const pad = 14; // px of air round the text
+      keep.x0 = (Math.min(t.left, i.left) - b.left - pad) / CELL;
+      keep.x1 = (i.right - b.left + pad) / CELL;
+      keep.y0 = (t.top - b.top - pad) / CELL;
+      keep.y1 = (l.bottom - b.top + pad) / CELL;
+      keep.on = true;
+    };
+
     const step = (dt: number) => {
+      if (!keep.on || measured++ % 12 === 0) measureText();
       // the clock (and so the records' drop-in) waits for the landing loader
       if (!sect?.classList.contains('is-loading')) time += dt;
       for (const rp of ripples) {
@@ -223,6 +248,32 @@ export function Records({ items }: { items: Item[] }) {
         } else if (a.y > rows - m) {
           a.y = rows - m;
           a.vy = -Math.abs(a.vy);
+        }
+        // the intro text: a record bounces off its box instead of drifting over the words
+        if (keep.on) {
+          const nx0 = Math.max(keep.x0, Math.min(keep.x1, a.x));
+          const ny0 = Math.max(keep.y0, Math.min(keep.y1, a.y));
+          let dx = a.x - nx0;
+          let dy = a.y - ny0;
+          const d = Math.hypot(dx, dy);
+          if (d < a.r) {
+            if (d > 0.001) {
+              dx /= d;
+              dy /= d;
+              a.x = nx0 + dx * a.r;
+              a.y = ny0 + dy * a.r;
+            } else {
+              // the centre is inside the box: leave through the top
+              dx = 0;
+              dy = -1;
+              a.y = keep.y0 - a.r;
+            }
+            const vn = a.vx * dx + a.vy * dy;
+            if (vn < 0) {
+              a.vx -= 2 * vn * dx;
+              a.vy -= 2 * vn * dy;
+            }
+          }
         }
         // spin: relax to the record's own speed, spin up when hovered
         const e = 1 - Math.pow(1 - a.app, 3);
