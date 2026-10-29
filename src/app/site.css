@@ -659,7 +659,7 @@ body:has(.site) {
   border: 0;
   background: none;
   color: inherit;
-  cursor: zoom-in;
+  cursor: zoom-in; /* only without a mouse dot, see .dot */
 }
 .shot:focus-visible {
   outline: 2px solid var(--fg);
@@ -1025,5 +1025,72 @@ body:has(.site) {
   .lightbox,
   .lightbox__img {
     animation: none;
+  }
+}
+
+/* ---------- the pointer: a dot (mouse only; Cursor.tsx adds .has-dot to <html>) ---------- */
+html.has-dot .site,
+html.has-dot .site * {
+  cursor: none !important;
+}
+.dot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  will-change: transform;
+}
+html:not(.has-dot) .dot {
+  display: none;
+}
+.dot[data-show='1'] {
+  opacity: 1;
+}
+.dot__disc {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 0 0 1px rgba(243, 240, 234, 0.85); /* a hairline of paper so it still reads over dark images */
+  transition: width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s, scale 0.15s;
+}
+.dot__icon {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.18s, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dot[data-mode='link'] .dot__disc {
+  width: 22px;
+  height: 22px;
+  opacity: 0.38;
+}
+.dot[data-mode='shot'] .dot__disc {
+  width: 64px;
+  height: 64px;
+}
+.dot[data-mode='shot'] .dot__icon {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.06s;
+}
+.dot[data-down='1'] .dot__disc {
+  scale: 0.82;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot__disc,
+  .dot__icon {
+    transition: none;
   }
 }
