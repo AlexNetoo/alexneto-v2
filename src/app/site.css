@@ -419,8 +419,9 @@ body:has(.site) {
   height: 100%;
   pointer-events: none;
 }
-/* a very light hairline round the project images on the landing, drawn over the image so its edge reads on white */
-.home .pcard__media::after {
+/* a very light hairline round the project images (cards and project pages), drawn over the image so its edge reads on white */
+.pcard__media::after,
+.project__body .shot::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -667,8 +668,10 @@ body:has(.site) {
   gap: 20px;
 }
 .shot {
+  position: relative;
   display: block;
   width: 100%;
+  border-radius: 6px;
   padding: 0;
   border: 0;
   background: none;
