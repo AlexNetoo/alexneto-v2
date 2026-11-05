@@ -205,8 +205,8 @@ body:has(.site) {
 }
 .menu__links a {
   display: inline-block;
-  font-size: var(--text-sm);
-  line-height: 22px;
+  font-size: 18px;
+  line-height: 26px;
   color: var(--color-text-tertiary);
 }
 .menu__links a:hover,

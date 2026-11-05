@@ -5,6 +5,9 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { cv, socials, whatsappUrl } from '@/data/site';
 
+/** Only the socials worth a spot in the compact menu (the About page lists them all). */
+const MENU_SOCIALS = socials.filter((s) => s.label === 'LinkedIn');
+
 const ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'Projects', href: '/projects' },
@@ -79,7 +82,7 @@ export function Nav() {
             contact <span aria-hidden="true">↗</span>
           </a>
           <div className="menu__socials">
-            {socials.map((s, n) => (
+            {MENU_SOCIALS.map((s, n) => (
               <a
                 key={s.label}
                 className="menu__contact"
@@ -91,7 +94,7 @@ export function Nav() {
                 {s.label.toLowerCase()}
               </a>
             ))}
-            <a className="menu__contact" style={{ ['--i' as string]: ITEMS.length + 1 + socials.length }} href={cv.href} download={cv.filename}>
+            <a className="menu__contact" style={{ ['--i' as string]: ITEMS.length + 1 + MENU_SOCIALS.length }} href={cv.href} download={cv.filename}>
               download cv <span aria-hidden="true">↓</span>
             </a>
           </div>
