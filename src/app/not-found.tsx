@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="site">
       <div className="lost">
         <p>404, nothing swims here.</p>
-        <Link href="/">← back to the pond</Link>
+        <Link href="/">← back home</Link>
       </div>
     </div>
   );

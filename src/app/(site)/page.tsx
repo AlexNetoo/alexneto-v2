@@ -1,26 +1,24 @@
-import { LocalClock } from '@/components/LocalClock';
+import { ProjectRail } from '@/components/ProjectRail';
 import { Typed } from '@/components/Typed';
-import { experience, socials } from '@/data/site';
+import { socials } from '@/data/site';
+import { getProjects } from '@/lib/projects-store';
 
-export default function Home() {
-  const now = experience[0];
+/** Landing: a short typed intro and links up top, then the projects rail. */
+export default async function Home() {
+  const projects = await getProjects();
   return (
-    <section className="pond" aria-label="Introduction">
-      <LocalClock />
-      <div className="pond__text">
-        <div className="pond__tag">
+    <section className="home" aria-label="Introduction">
+      <div className="home__text">
+        <div className="home__tag">
           <Typed lines={['Alex Neto, product designer,', 'with more than 10 years of experience']} />
         </div>
-        <div className="pond__intro rise" style={{ ['--d' as string]: '0.4s' }}>
-          <p>I drive real business results by designing digital products and websites that are easy to use and scale.</p>
-          <p>
-            Currently a {now.role.toLowerCase()} as an independent contractor. Before that, Namebase, Namecheap, Defined.ai and Porto Design Factory.
-          </p>
-        </div>
-        <div className="pond__links rise" style={{ ['--d' as string]: '0.55s' }}>
+        <p className="home__intro rise" style={{ ['--d' as string]: '0.4s' }}>
+          Currently work as an independent contractor. Before that, I was designing at Namebase, Namecheap, Defined.ai and Porto Design Factory.
+        </p>
+        <div className="home__links rise" style={{ ['--d' as string]: '0.55s' }}>
           {socials.map((s, i) => (
             <span key={s.label} style={{ display: 'contents' }}>
-              {i > 0 && <span>/</span>}
+              {i > 0 && <span aria-hidden="true">/</span>}
               <a href={s.href} target="_blank" rel="noopener noreferrer">
                 {s.label.toLowerCase()}
               </a>
@@ -28,6 +26,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <ProjectRail projects={projects} />
     </section>
   );
 }
