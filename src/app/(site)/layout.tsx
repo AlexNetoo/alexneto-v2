@@ -1,16 +1,19 @@
 import type { Viewport } from 'next';
+import { DM_Sans } from 'next/font/google';
 import { ClickRipple } from '@/components/ClickRipple';
 import { Cursor } from '@/components/Cursor';
 import { Nav } from '@/components/Nav';
 import { SoundToggle } from '@/components/SoundToggle';
 import '../site.css';
 
-export const viewport: Viewport = { themeColor: '#f3f0ea', colorScheme: 'light' };
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400'], variable: '--font-dm-sans', display: 'swap' });
 
-/** The public site: a centred monospace nav on warm paper, light only. The admin lives outside this group. */
+export const viewport: Viewport = { themeColor: '#ffffff', colorScheme: 'light' };
+
+/** The public site: white and grays from the design system, a top-right disclosure menu, light only. The admin lives outside this group. */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="site">
+    <div className={`site ${dmSans.variable}`}>
       <Nav />
       <ClickRipple />
       <Cursor />
