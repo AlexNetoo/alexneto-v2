@@ -160,18 +160,17 @@ body:has(.site) {
   position: fixed;
   top: 20px;
   right: 40px;
-  width: 280px;
+  width: 220px;
   pointer-events: none; /* the box is panel-sized even when closed; only the button and the (clipped) panel take the pointer */
 }
-.menu__button,
 .menu__panel {
   pointer-events: auto;
 }
 .menu__panel {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding: 50px 24px 28px;
+  gap: 20px;
+  padding: 52px 24px 24px;
   border-radius: 20px;
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
@@ -183,7 +182,7 @@ body:has(.site) {
 }
 .menu__links {
   display: grid;
-  gap: 4px;
+  gap: 6px;
 }
 .menu__links a,
 .menu__contact {
@@ -199,10 +198,8 @@ body:has(.site) {
 }
 .menu__links a {
   display: inline-block;
-  font-size: var(--text-h1);
-  line-height: var(--leading-h1);
-  letter-spacing: -0.01em;
-  font-weight: 500; /* Suisse Book */
+  font-size: var(--text-sm);
+  line-height: 20px;
   color: var(--color-text-tertiary);
 }
 .menu__links a:hover,
@@ -212,11 +209,8 @@ body:has(.site) {
 }
 .menu__contact {
   align-self: flex-start;
-  font-family: var(--font-label);
-  font-size: var(--text-xs);
-  line-height: var(--leading-label);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: var(--text-sm);
+  line-height: 20px;
   color: var(--color-text-tertiary);
 }
 .menu__contact:hover,
@@ -230,6 +224,7 @@ body:has(.site) {
 }
 .menu__button {
   all: unset;
+  pointer-events: auto; /* after the reset: all: unset would otherwise inherit none from .menu */
   position: absolute;
   top: 6px;
   right: 6px;
