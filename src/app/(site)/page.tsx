@@ -1,13 +1,12 @@
-import Link from 'next/link';
 import { DotField } from '@/components/DotField';
 import { ProjectRail } from '@/components/ProjectRail';
 import { Typed } from '@/components/Typed';
 import { getProjects } from '@/lib/projects-store';
 
 const PERSONAL = [
-  { slug: 'skip-rest', title: 'Skip Rest' },
-  { slug: 'donecenter', title: 'Done Center' },
-  { slug: 'uswap', title: 'uSwap' },
+  { title: 'Skip Rest', href: 'https://skiprest.com' },
+  { title: 'Done Center', href: 'https://done.center' },
+  { title: 'uSwap', href: 'https://uswap.xyz' },
 ];
 
 /** Landing: a short typed intro and links up top, then the projects rail. */
@@ -26,9 +25,11 @@ export default async function Home() {
         <p className="home__links rise" style={{ ['--d' as string]: '0.55s' }}>
           <span className="home__label">Personal projects</span>
           {PERSONAL.map((p, i) => (
-            <span key={p.slug} style={{ display: 'contents' }}>
+            <span key={p.href} style={{ display: 'contents' }}>
               {i > 0 && <span aria-hidden="true">/</span>}
-              <Link href={`/projects/${p.slug}`}>{p.title}</Link>
+              <a href={p.href} target="_blank" rel="noopener noreferrer">
+                {p.title}
+              </a>
             </span>
           ))}
         </p>
