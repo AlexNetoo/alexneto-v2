@@ -1,6 +1,5 @@
 import type { Viewport } from 'next';
 import { DM_Sans } from 'next/font/google';
-import { ClickRipple } from '@/components/ClickRipple';
 import { Cursor } from '@/components/Cursor';
 import { DotField } from '@/components/DotField';
 import { Nav } from '@/components/Nav';
@@ -17,7 +16,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     <div className={`site ${dmSans.variable}`}>
       <DotField />
       <Nav />
-      <ClickRipple />
       <Cursor />
       <SoundToggle />
       <main id="main">{children}</main>
