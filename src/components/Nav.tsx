@@ -67,15 +67,15 @@ export function Nav() {
         </button>
         <nav id="menu-panel" className="menu__panel" aria-label="Primary" inert={!open}>
           <ul className="menu__links">
-            {ITEMS.map((i) => (
+            {ITEMS.map((i, n) => (
               <li key={i.href}>
-                <Link href={i.href} aria-current={current(i.href) ? 'page' : undefined} onClick={() => setOpen(false)}>
+                <Link href={i.href} style={{ ['--i' as string]: n }} aria-current={current(i.href) ? 'page' : undefined} onClick={() => setOpen(false)}>
                   {i.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <a className="menu__contact" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+          <a className="menu__contact" style={{ ['--i' as string]: ITEMS.length }} href={whatsappUrl} target="_blank" rel="noopener noreferrer">
             contact <span aria-hidden="true">↗</span>
           </a>
         </nav>
