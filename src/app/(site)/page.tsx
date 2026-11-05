@@ -4,7 +4,7 @@ import { Typed } from '@/components/Typed';
 import { getProjects } from '@/lib/projects-store';
 
 const PERSONAL = [
-  { title: 'Skip Rest', href: 'https://skiprest.com' },
+  { title: 'Skip Rest', href: 'https://apps.apple.com/pt/app/skip-rest/id6828534021?l=en-GB' },
   { title: 'Done Center', href: 'https://done.center' },
   { title: 'uSwap', href: 'https://uswap.xyz' },
 ];
