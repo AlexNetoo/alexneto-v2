@@ -389,7 +389,16 @@ body:has(.site) {
 .home {
   display: grid;
   gap: 120px;
-  padding: 200px 0 120px;
+  padding: 400px 0 120px;
+}
+/* a very light hairline round the project images on the landing, drawn over the image so its edge reads on white */
+.home .pcard__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: inherit;
+  pointer-events: none;
 }
 .home__text {
   display: grid;
