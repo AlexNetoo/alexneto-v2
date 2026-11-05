@@ -7,9 +7,9 @@ const R = 150; // reach of the cursor, px
 const PUSH = 7; // how far the nearest dots lean away, px
 
 /**
- * A quiet grid of dots that only shows around the pointer on the landing's white space: the dots fade in near the
- * cursor and lean slightly away from it, trailing it with a little lag. It fades out over text, links and the
- * project cards. Mouse and trackpad only, nothing with reduced motion, and the loop sleeps when there's nothing to draw.
+ * A quiet grid of dots that only shows around the pointer on the site's white space: the dots fade in near the
+ * cursor and lean slightly away from it, trailing it with a little lag. It fades out over text, links, images and
+ * the project cards. Mouse and trackpad only, nothing with reduced motion, and the loop sleeps when there's nothing to draw.
  */
 export function DotField() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -80,7 +80,7 @@ export function DotField() {
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
       const t = e.target instanceof Element ? e.target : null;
-      const busy = !!t?.closest('a, button, p, .pcard, .home__tag, .menu, .sound');
+      const busy = !!t?.closest('a, button, p, h1, h2, h3, li, img, video, figure, .pcard, .row, .home__tag, .menu, .sound, .lightbox');
       if (k < 0.01) {
         // first appearance: start where the pointer is, not sliding in from the last spot
         x = e.clientX;
