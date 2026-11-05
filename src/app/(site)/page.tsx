@@ -1,3 +1,4 @@
+import { DotField } from '@/components/DotField';
 import { ProjectRail } from '@/components/ProjectRail';
 import { Typed } from '@/components/Typed';
 import { socials } from '@/data/site';
@@ -8,6 +9,7 @@ export default async function Home() {
   const projects = await getProjects();
   return (
     <section className="home" aria-label="Introduction">
+      <DotField />
       <div className="home__text">
         <div className="home__tag">
           <Typed lines={['Alex Neto, product designer,', 'with more than 10 years of experience']} />
