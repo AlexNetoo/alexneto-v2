@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Reveal } from '@/components/Reveal';
-import { bio, experience, services, site, socials, teaching, whatsappUrl, type ResumeRow } from '@/data/site';
+import { bio, cv, experience, services, site, socials, teaching, whatsappUrl, type ResumeRow } from '@/data/site';
 
 export const metadata: Metadata = { title: 'About', description: site.description };
 
@@ -36,6 +36,9 @@ export default function AboutPage() {
               <p key={t}>{t}</p>
             ))}
           </div>
+          <a className="about__cv" href={cv.href} download={cv.filename}>
+            Download CV <span aria-hidden="true">↓</span>
+          </a>
         </div>
         <div className="about__portrait">
           <Image src="/profile.jpg" alt={`Portrait of ${site.name}`} fill sizes="168px" priority quality={80} />

@@ -15,6 +15,9 @@ export const site = {
 
 export const whatsappUrl = `https://wa.me/${site.whatsapp}`;
 
+/** The CV PDF (exported from Figma, website-2027 › Page 6 › CV 2026 — site style). */
+export const cv = { href: '/alex-neto-cv.pdf', filename: 'Alex Neto CV 2026.pdf' };
+
 export const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexneto93/' },
   { label: 'X', href: 'https://x.com/AlexNeto_' },

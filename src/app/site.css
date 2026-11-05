@@ -801,6 +801,34 @@ body:has(.site) {
 .about__copy p:first-child {
   color: var(--fg);
 }
+.site .about__cv {
+  margin-top: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 18px;
+  background: var(--color-bg-inverse, #000);
+  color: var(--color-text-inverse, #fff);
+  font-size: var(--text-sm);
+  line-height: 20px;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.site .about__cv span {
+  display: inline-block;
+  transition: transform 0.25s var(--ease);
+}
+.site .about__cv:hover {
+  opacity: 0.85;
+}
+.site .about__cv:hover span {
+  transform: translateY(2px);
+}
+.site .about__cv:focus-visible {
+  outline: 1px solid var(--fg-3);
+  outline-offset: 3px;
+}
 .about__portrait {
   position: relative;
   aspect-ratio: 4 / 5;

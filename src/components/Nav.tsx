@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { socials, whatsappUrl } from '@/data/site';
+import { cv, socials, whatsappUrl } from '@/data/site';
 
 const ITEMS = [
   { label: 'Home', href: '/' },
@@ -91,6 +91,9 @@ export function Nav() {
                 {s.label.toLowerCase()}
               </a>
             ))}
+            <a className="menu__contact" style={{ ['--i' as string]: ITEMS.length + 1 + socials.length }} href={cv.href} download={cv.filename}>
+              download cv <span aria-hidden="true">↓</span>
+            </a>
           </div>
         </nav>
       </div>
