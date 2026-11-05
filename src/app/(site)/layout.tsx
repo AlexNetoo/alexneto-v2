@@ -2,7 +2,6 @@ import type { Viewport } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { ClickRipple } from '@/components/ClickRipple';
 import { Cursor } from '@/components/Cursor';
-import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
 import { SoundToggle } from '@/components/SoundToggle';
 import '../site.css';
@@ -20,7 +19,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Cursor />
       <SoundToggle />
       <main id="main">{children}</main>
-      <Footer />
       <noscript>
         <style>{'.site .reveal{opacity:1!important;transform:none!important}'}</style>
       </noscript>

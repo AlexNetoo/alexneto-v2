@@ -1,8 +1,14 @@
+import Link from 'next/link';
 import { DotField } from '@/components/DotField';
 import { ProjectRail } from '@/components/ProjectRail';
 import { Typed } from '@/components/Typed';
-import { socials } from '@/data/site';
 import { getProjects } from '@/lib/projects-store';
+
+const PERSONAL = [
+  { slug: 'skip-rest', title: 'Skip Rest' },
+  { slug: 'donecenter', title: 'Done Center' },
+  { slug: 'uswap', title: 'uSwap' },
+];
 
 /** Landing: a short typed intro and links up top, then the projects rail. */
 export default async function Home() {
@@ -17,16 +23,15 @@ export default async function Home() {
         <p className="home__intro rise" style={{ ['--d' as string]: '0.4s' }}>
           Currently work as an independent contractor. Before that, I was designing at Namebase, Namecheap, Defined.ai and Porto Design Factory.
         </p>
-        <div className="home__links rise" style={{ ['--d' as string]: '0.55s' }}>
-          {socials.map((s, i) => (
-            <span key={s.label} style={{ display: 'contents' }}>
+        <p className="home__links rise" style={{ ['--d' as string]: '0.55s' }}>
+          <span className="home__label">Personal projects</span>
+          {PERSONAL.map((p, i) => (
+            <span key={p.slug} style={{ display: 'contents' }}>
               {i > 0 && <span aria-hidden="true">/</span>}
-              <a href={s.href} target="_blank" rel="noopener noreferrer">
-                {s.label.toLowerCase()}
-              </a>
+              <Link href={`/projects/${p.slug}`}>{p.title}</Link>
             </span>
           ))}
-        </div>
+        </p>
       </div>
       <ProjectRail projects={projects} />
     </section>

@@ -217,6 +217,12 @@ body:has(.site) {
   line-height: 22px;
   color: var(--color-text-tertiary);
 }
+.menu__socials {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  margin-top: -12px; /* reads as one list with contact */
+}
 .menu a.menu__contact:hover,
 .menu a.menu__contact:focus-visible {
   color: var(--color-text-inverse);
@@ -319,57 +325,6 @@ body:has(.site) {
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-/* ---------- footer ---------- */
-.footer {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: start;
-  gap: 24px;
-  margin: 0 var(--pad);
-  padding: 32px 0 88px; /* clears the fixed sound switch */
-  border-top: 1px solid var(--color-border-default);
-  font-size: var(--text-sm);
-  line-height: 20px;
-  color: var(--color-text-primary);
-}
-.footer__who span {
-  display: block;
-  color: var(--color-text-tertiary);
-}
-.footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-}
-.footer__end {
-  display: grid;
-  justify-items: end;
-  color: var(--color-text-tertiary);
-}
-.footer a {
-  transition: color 0.2s, opacity 0.2s;
-}
-.footer__links a:hover {
-  opacity: 0.55;
-}
-.footer__end a:hover,
-.footer__end a:focus-visible {
-  color: var(--color-text-primary);
-}
-@media (max-width: 699px) {
-  .footer {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding-bottom: 80px;
-  }
-  .footer__end {
-    justify-items: start;
-    grid-auto-flow: column;
-    justify-content: space-between;
-  }
 }
 
 /* ---------- sound switch ---------- */
@@ -500,6 +455,10 @@ body:has(.site) {
 }
 .home__links > span > span {
   padding: 0 8px;
+}
+.home__label {
+  margin-right: 12px;
+  color: var(--color-text-secondary);
 }
 .caret {
   display: inline-block;

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { whatsappUrl } from '@/data/site';
+import { socials, whatsappUrl } from '@/data/site';
 
 const ITEMS = [
   { label: 'Home', href: '/' },
@@ -78,6 +78,20 @@ export function Nav() {
           <a className="menu__contact" style={{ ['--i' as string]: ITEMS.length }} href={whatsappUrl} target="_blank" rel="noopener noreferrer">
             contact <span aria-hidden="true">↗</span>
           </a>
+          <div className="menu__socials">
+            {socials.map((s, n) => (
+              <a
+                key={s.label}
+                className="menu__contact"
+                style={{ ['--i' as string]: ITEMS.length + 1 + n }}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {s.label.toLowerCase()}
+              </a>
+            ))}
+          </div>
         </nav>
       </div>
     </header>
